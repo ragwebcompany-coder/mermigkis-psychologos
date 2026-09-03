@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 96" width="420" height="96">
+  <path d="M35.5 17.5A18.5 18.5 0 1 0 35.5 54.5A24.5 24.5 0 0 1 35.5 17.5Z" fill="#1b4079"/>
+  <g fill="#c0a063">
+    <path d="M49.5 19.5c.55 2.1 1.15 2.7 3.25 3.25-2.1.55-2.7 1.15-3.25 3.25-.55-2.1-1.15-2.7-3.25-3.25 2.1-.55 2.7-1.15 3.25-3.25Z"/>
+    <path d="M55 29c.36 1.36.75 1.75 2.1 2.1-1.35.36-1.74.75-2.1 2.1-.36-1.35-.75-1.74-2.1-2.1 1.35-.35 1.74-.74 2.1-2.1Z"/>
+    <circle cx="51.6" cy="37.4" r="1.15"/>
+  </g>
+  <text x="76" y="42" font-family="Cormorant Garamond, Georgia, serif" font-size="23" letter-spacing="1.4" fill="#091426">ΜΕΡΜΙΓΚΗΣ ΜΙΧΑΗΛ</text>
+  <rect x="76" y="53" width="18" height="1" fill="#091426" opacity="0.25"/>
+  <text x="102" y="57" font-family="Inter, Helvetica, Arial, sans-serif" font-size="9" letter-spacing="2.2" fill="#5a6878">ΨΥΧΟΛΟΓΟΣ · ΑΫΠΝΙΑ</text>
+</svg>

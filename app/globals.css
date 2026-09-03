@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: var(--font-literata), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Clinical Nocturne palette */
+  --color-midnight-950: #050b15;
+  --color-midnight-900: #091426;
+  --color-midnight-850: #0c1c31;
+  --color-midnight-800: #10243d;
+  --color-midnight-700: #16304f;
+  --color-navy-600: #1b4079;
+  --color-navy-500: #2a5896;
+  --color-moon-400: #8fb3de;
+  --color-moon-300: #aecbec;
+  --color-moon-200: #cfe0f4;
+  --color-cream-50: #faf8f4;
+  --color-cream-100: #f3efe7;
+  --color-cream-200: #e7e0d3;
+  --color-brass-500: #c0a063;
+  --color-brass-400: #d4bb85;
+  --color-ink-900: #0e1620;
+  --color-ink-700: #2c3846;
+  --color-ink-500: #5a6878;
+  --color-ink-400: #8794a3;
+
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-cream-50);
+    color: var(--color-ink-900);
+    font-family: var(--font-sans);
+    font-feature-settings: "kern", "liga";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--color-navy-600);
+    color: #fff;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.015em;
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  /* Night sky gradient used in dark sections */
+  .nocturne {
+    background:
+      radial-gradient(120% 90% at 78% 6%, rgba(143, 179, 222, 0.16) 0%, transparent 55%),
+      radial-gradient(90% 70% at 12% 92%, rgba(27, 64, 121, 0.42) 0%, transparent 60%),
+      linear-gradient(178deg, #050b15 0%, #091426 38%, #0c1c31 100%);
+  }
+
+  /* Dawn transition: night bleeding into cream */
+  .daybreak {
+    background: linear-gradient(180deg, #0c1c31 0%, #22406a 30%, #6e7d95 62%, #c6c3b8 84%, var(--color-cream-50) 100%);
+  }
+
+  .hairline { border-color: color-mix(in srgb, var(--color-ink-900) 12%, transparent); }
+  .hairline-light { border-color: rgba(207, 224, 244, 0.16); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: var(--tw-star-min, 0.18); }
+  50% { opacity: 0.75; }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+
+.reveal {
+  opacity: 0;
+}
+
+.reveal.is-visible {
+  animation: rise 0.9s var(--ease-out-soft) forwards;
+}
