@@ -81,7 +81,7 @@
 
   /* Dawn transition: night bleeding into cream */
   .daybreak {
-    background: linear-gradient(180deg, #0c1c31 0%, #22406a 30%, #6e7d95 62%, #c6c3b8 84%, var(--color-cream-50) 100%);
+    background: linear-gradient(180deg, #0c1c31 0%, #12253d 18%, #1d3557 38%, #4b5c7a 58%, #8f95a0 74%, #cfc9bd 88%, var(--color-cream-50) 100%);
   }
 
   .hairline { border-color: color-mix(in srgb, var(--color-ink-900) 12%, transparent); }
@@ -113,4 +113,11 @@
 
 .reveal.is-visible {
   animation: rise 0.9s var(--ease-out-soft) forwards;
+}
+
+@layer utilities {
+  /* keyword accents inside body copy */
+  .hl { color: var(--color-brass-500); }
+  .hl-light { color: var(--color-brass-400); }
+  .display-italic { font-family: var(--font-display); font-style: italic; }
 }

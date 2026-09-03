@@ -1,6 +1,8 @@
 import Link from "next/link";
-import { Logo } from "./Logo";
+import { Seal } from "./Logo";
 import { PhoneIcon } from "./Header";
+import { Ornament } from "./ui";
+import { disorders } from "@/lib/disorders";
 import { nav, site } from "@/lib/site";
 
 export default function Footer() {
@@ -8,32 +10,33 @@ export default function Footer() {
     <footer className="nocturne relative overflow-hidden text-cream-50">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-moon-400/25 to-transparent" />
 
-      <div className="mx-auto max-w-[1240px] px-5 py-20 sm:px-8 sm:py-24">
-        <div className="grid gap-14 lg:grid-cols-[1.4fr_1fr_1fr]">
-          <div>
-            <Logo tone="light" />
-            <p className="mt-7 max-w-sm text-[0.9375rem] leading-[1.8] text-moon-200/60">
-              Γνωσιακή Συμπεριφορική Θεραπεία της Αϋπνίας (CBT-I) για ενήλικες.
-              Ιδιωτικό γραφείο στον Γέρακα και συνεργασία με το Εργαστήριο Ύπνου
-              του Ερρίκος Ντυνάν Hospital Center.
-            </p>
-            <a
-              href={site.phoneHref}
-              className="mt-8 inline-flex items-center gap-3 rounded-full bg-brass-500 px-6 py-3.5 text-sm font-medium text-midnight-950 transition-colors hover:bg-brass-400"
-            >
-              <PhoneIcon className="h-4 w-4" />
-              {site.phoneDisplay}
-            </a>
-          </div>
+      <div className="mx-auto max-w-[1240px] px-5 py-24 sm:px-8">
+        <div className="text-center">
+          <Seal id="footer-seal" className="mx-auto h-28 w-28" />
+          <p className="mx-auto mt-8 max-w-md text-[0.9375rem] leading-[1.85] text-moon-200/55">
+            Γνωσιακή Συμπεριφορική Θεραπεία της Αϋπνίας (CBT-I) για ενήλικες.
+            Ιδιωτικό γραφείο στον Γέρακα, σε συνεργασία με το Εργαστήριο Ύπνου
+            του Ερρίκος Ντυνάν Hospital Center.
+          </p>
+          <a
+            href={site.phoneHref}
+            className="eyebrow mt-9 inline-flex items-center gap-2.5 rounded-full bg-brass-500 px-8 py-4 text-[0.625rem] text-midnight-950 transition-colors hover:bg-brass-400"
+          >
+            <PhoneIcon className="h-[13px] w-[13px]" />
+            {site.phoneDisplay}
+          </a>
+          <Ornament tone="light" className="mt-14" />
+        </div>
 
+        <div className="mt-14 grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
           <div>
-            <h3 className="eyebrow text-moon-400/70">Πλοήγηση</h3>
-            <ul className="mt-6 space-y-3.5">
+            <h3 className="eyebrow text-moon-400/60">Πλοήγηση</h3>
+            <ul className="mt-6 space-y-3">
               {nav.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-[0.9375rem] text-moon-200/70 transition-colors hover:text-cream-50"
+                    className="text-[0.9375rem] text-moon-200/65 transition-colors hover:text-cream-50"
                   >
                     {item.label}
                   </Link>
@@ -43,8 +46,24 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="eyebrow text-moon-400/70">Γραφείο</h3>
-            <address className="mt-6 space-y-1 text-[0.9375rem] not-italic leading-[1.8] text-moon-200/70">
+            <h3 className="eyebrow text-moon-400/60">Διαταραχές ύπνου</h3>
+            <ul className="mt-6 space-y-3">
+              {disorders.map((d) => (
+                <li key={d.slug}>
+                  <Link
+                    href={`/diataraches-ypnou/${d.slug}`}
+                    className="text-[0.9375rem] text-moon-200/65 transition-colors hover:text-cream-50"
+                  >
+                    {d.nav}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="eyebrow text-moon-400/60">Γραφείο</h3>
+            <address className="mt-6 space-y-1 text-[0.9375rem] not-italic leading-[1.8] text-moon-200/65">
               <p>{site.address.street}</p>
               <p>
                 {site.address.area} {site.address.postal}
@@ -55,14 +74,13 @@ export default function Footer() {
               href={site.mapsHref}
               target="_blank"
               rel="noreferrer"
-              className="mt-5 inline-flex items-center gap-2 text-[0.8125rem] text-brass-400 transition-colors hover:text-brass-500"
+              className="mt-5 inline-block text-[0.8125rem] text-brass-400 transition-colors hover:text-brass-500"
             >
-              Οδηγίες πρόσβασης
-              <span aria-hidden="true">→</span>
+              Οδηγίες πρόσβασης →
             </a>
 
-            <h3 className="eyebrow mt-10 text-moon-400/70">Ραντεβού</h3>
-            <p className="mt-4 text-[0.9375rem] leading-[1.8] text-moon-200/70">
+            <h3 className="eyebrow mt-10 text-moon-400/60">Ραντεβού</h3>
+            <p className="mt-4 text-[0.9375rem] leading-[1.8] text-moon-200/65">
               Κατόπιν τηλεφωνικής επικοινωνίας.
             </p>
           </div>
@@ -79,8 +97,8 @@ export default function Footer() {
               δικαιώματος.
             </p>
             <p>
-              Το περιεχόμενο του ιστότοπου έχει ενημερωτικό χαρακτήρα και δεν
-              υποκαθιστά την κλινική αξιολόγηση.
+              Το περιεχόμενο έχει ενημερωτικό χαρακτήρα και δεν υποκαθιστά την
+              κλινική αξιολόγηση.
             </p>
           </div>
         </div>

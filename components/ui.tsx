@@ -1,30 +1,49 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+/* ─── ornament ─────────────────────────────────────────────── */
+
+export function Ornament({
+  tone = "dark",
+  className = "",
+}: {
+  tone?: "light" | "dark";
+  className?: string;
+}) {
+  const line = tone === "light" ? "bg-moon-200/25" : "bg-ink-900/12";
+  const dot = tone === "light" ? "bg-brass-400/70" : "bg-brass-500/70";
+  return (
+    <span className={`flex items-center justify-center gap-3 ${className}`}>
+      <span className={`h-px w-12 ${line}`} />
+      <span className={`h-[5px] w-[5px] rotate-45 ${dot}`} />
+      <span className={`h-px w-12 ${line}`} />
+    </span>
+  );
+}
+
 export function Eyebrow({
   children,
   tone = "dark",
+  align = "left",
   className = "",
 }: {
   children: ReactNode;
   tone?: "light" | "dark";
+  align?: "center" | "left";
   className?: string;
 }) {
   return (
     <p
-      className={`eyebrow flex items-center gap-3 ${
+      className={`eyebrow ${
         tone === "light" ? "text-brass-400/90" : "text-brass-500"
-      } ${className}`}
+      } ${align === "center" ? "text-center" : ""} ${className}`}
     >
-      <span
-        className={`h-px w-7 ${
-          tone === "light" ? "bg-brass-400/50" : "bg-brass-500/45"
-        }`}
-      />
       {children}
     </p>
   );
 }
+
+/* ─── layout ───────────────────────────────────────────────── */
 
 export function Section({
   children,
@@ -36,27 +55,50 @@ export function Section({
   id?: string;
 }) {
   return (
-    <section id={id} className={`px-5 py-24 sm:px-8 sm:py-32 ${className}`}>
+    <section id={id} className={`px-5 py-28 sm:px-8 sm:py-40 ${className}`}>
       <div className="mx-auto max-w-[1240px]">{children}</div>
     </section>
   );
 }
 
-export function Prose({
-  children,
+export function SectionHead({
+  eyebrow,
+  title,
+  intro,
+  tone = "dark",
   className = "",
 }: {
-  children: ReactNode;
+  eyebrow: string;
+  title: ReactNode;
+  intro?: ReactNode;
+  tone?: "light" | "dark";
   className?: string;
 }) {
   return (
-    <div
-      className={`space-y-5 text-[1.0625rem] leading-[1.85] text-ink-700 text-pretty ${className}`}
-    >
-      {children}
+    <div className={`mx-auto max-w-2xl text-center ${className}`}>
+      <Eyebrow tone={tone}>{eyebrow}</Eyebrow>
+      <h2
+        className={`mt-6 font-display text-[2.1rem] leading-[1.16] text-balance sm:text-[2.85rem] ${
+          tone === "light" ? "text-cream-50" : "text-midnight-900"
+        }`}
+      >
+        {title}
+      </h2>
+      {intro && (
+        <p
+          className={`mt-6 text-[1.0625rem] leading-[1.85] text-pretty ${
+            tone === "light" ? "text-moon-200/60" : "text-ink-500"
+          }`}
+        >
+          {intro}
+        </p>
+      )}
+      <Ornament tone={tone} className="mt-9" />
     </div>
   );
 }
+
+/* ─── controls ─────────────────────────────────────────────── */
 
 export function ButtonLink({
   href,
@@ -66,33 +108,28 @@ export function ButtonLink({
 }: {
   href: string;
   children: ReactNode;
-  variant?: "primary" | "ghost" | "brass";
+  variant?: "primary" | "ghost" | "brass" | "outline";
   className?: string;
 }) {
   const styles = {
-    primary:
-      "bg-navy-600 text-cream-50 hover:bg-midnight-800 ring-0",
-    brass:
-      "bg-brass-500 text-midnight-950 hover:bg-brass-400 ring-0",
-    ghost:
-      "bg-transparent text-cream-50 ring-1 ring-moon-200/25 hover:bg-cream-50/10",
+    primary: "bg-navy-600 text-cream-50 hover:bg-midnight-800",
+    brass: "bg-brass-500 text-midnight-950 hover:bg-brass-400",
+    ghost: "text-cream-50 ring-1 ring-moon-200/30 hover:bg-cream-50/10",
+    outline:
+      "text-midnight-900 ring-1 ring-ink-900/15 hover:bg-midnight-900 hover:text-cream-50",
   }[variant];
 
   return (
     <Link
       href={href}
-      className={`group inline-flex items-center gap-3 rounded-full px-7 py-3.5 text-sm font-medium transition-all duration-300 ${styles} ${className}`}
+      className={`eyebrow inline-flex items-center justify-center rounded-full px-8 py-4 text-[0.625rem] transition-all duration-300 ${styles} ${className}`}
     >
       {children}
-      <span
-        aria-hidden="true"
-        className="transition-transform duration-300 group-hover:translate-x-1"
-      >
-        →
-      </span>
     </Link>
   );
 }
+
+/* ─── page hero ────────────────────────────────────────────── */
 
 export function PageHero({
   eyebrow,
@@ -104,23 +141,25 @@ export function PageHero({
   intro?: string;
 }) {
   return (
-    <section className="nocturne relative overflow-hidden px-5 pb-24 pt-[150px] text-cream-50 sm:px-8 sm:pb-28 sm:pt-[180px]">
+    <section className="nocturne relative overflow-hidden px-5 pb-28 pt-[170px] text-center text-cream-50 sm:px-8 sm:pb-36 sm:pt-[210px]">
       <Stars />
-      <div className="relative mx-auto max-w-[1240px]">
+      <div className="relative mx-auto max-w-3xl">
         <Eyebrow tone="light">{eyebrow}</Eyebrow>
-        <h1 className="mt-7 max-w-3xl font-display text-[2.6rem] leading-[1.08] text-balance sm:text-[3.6rem] lg:text-[4.1rem]">
+        <h1 className="mt-7 font-display text-[2.5rem] leading-[1.08] text-balance sm:text-[3.6rem]">
           {title}
         </h1>
         {intro && (
-          <p className="mt-7 max-w-2xl text-[1.0625rem] leading-[1.85] text-moon-200/65 text-pretty sm:text-[1.15rem]">
+          <p className="mx-auto mt-8 max-w-2xl text-[1.0625rem] leading-[1.9] text-moon-200/65 text-pretty">
             {intro}
           </p>
         )}
+        <Ornament tone="light" className="mt-10" />
       </div>
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-moon-400/20 to-transparent" />
     </section>
   );
 }
+
+/* ─── decoration ───────────────────────────────────────────── */
 
 /** Deterministic, non-random starfield so server and client markup agree. */
 export function Stars({ className = "" }: { className?: string }) {

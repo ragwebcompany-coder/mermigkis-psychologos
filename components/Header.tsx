@@ -4,12 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Logo } from "./Logo";
+import { disorders } from "@/lib/disorders";
 import { nav, site } from "@/lib/site";
 
 export default function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [submenu, setSubmenu] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -20,6 +22,7 @@ export default function Header() {
 
   useEffect(() => {
     setOpen(false);
+    setSubmenu(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -30,43 +33,78 @@ export default function Header() {
   }, [open]);
 
   // Every page opens on a dark hero, so the header stays transparent until scroll.
-  const overDarkHero = !scrolled;
-  const tone = overDarkHero ? "light" : "dark";
+  const light = !scrolled;
+
+  const link = (active: boolean) =>
+    `whitespace-nowrap font-sans text-[0.625rem] font-medium uppercase tracking-[0.15em] transition-colors duration-300 ${
+      light
+        ? active
+          ? "text-brass-400"
+          : "text-moon-200/70 hover:text-cream-50"
+        : active
+          ? "text-brass-500"
+          : "text-ink-500 hover:text-midnight-900"
+    }`;
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,border-color] duration-500 ${
-        overDarkHero
-          ? "border-b border-transparent bg-transparent"
-          : "border-b border-ink-900/10 bg-cream-50/90 backdrop-blur-xl"
+      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-500 ${
+        light
+          ? "border-b border-transparent"
+          : "border-b border-ink-900/8 bg-cream-50/92 backdrop-blur-xl"
       }`}
     >
-      <div className="mx-auto flex h-[74px] max-w-[1240px] items-center justify-between gap-6 px-5 sm:px-8">
+      <div className="mx-auto flex h-[82px] max-w-[1320px] items-center justify-between gap-8 px-5 sm:px-8">
         <Link href="/" aria-label="Αρχική" className="shrink-0">
-          <Logo tone={tone} />
+          <Logo tone={light ? "light" : "dark"} />
         </Link>
 
-        <nav className="hidden items-center gap-7 xl:flex">
+        <nav className="hidden items-center gap-6 xl:flex">
           {nav.slice(1).map((item) => {
-            const active = pathname === item.href;
+            const active =
+              pathname === item.href ||
+              (item.href === "/diataraches-ypnou" &&
+                pathname.startsWith("/diataraches-ypnou"));
+
+            if (item.href === "/diataraches-ypnou") {
+              return (
+                <div key={item.href} className="group relative">
+                  <Link href={item.href} className={`${link(active)} flex items-center gap-1.5`}>
+                    {item.label}
+                    <span className="text-[0.5rem] transition-transform duration-300 group-hover:rotate-180">
+                      ▾
+                    </span>
+                  </Link>
+                  <div className="invisible absolute left-1/2 top-full z-10 w-[290px] -translate-x-1/2 pt-5 opacity-0 transition-all duration-300 group-hover:visible group-hover:opacity-100">
+                    <div className="overflow-hidden rounded-2xl border border-ink-900/8 bg-cream-50 py-2 shadow-[0_28px_70px_-30px_rgba(9,20,38,0.5)]">
+                      {disorders.map((d) => (
+                        <Link
+                          key={d.slug}
+                          href={`/diataraches-ypnou/${d.slug}`}
+                          className={`block px-6 py-2.5 text-[0.8125rem] transition-colors ${
+                            pathname === `/diataraches-ypnou/${d.slug}`
+                              ? "text-brass-500"
+                              : "text-ink-700 hover:bg-cream-100 hover:text-midnight-900"
+                          }`}
+                        >
+                          {d.nav}
+                        </Link>
+                      ))}
+                      <Link
+                        href="/diataraches-ypnou"
+                        className="mt-1 block border-t border-ink-900/8 px-6 pb-1 pt-3 text-[0.6875rem] uppercase tracking-[0.16em] text-navy-600 transition-colors hover:text-midnight-900"
+                      >
+                        Όλες οι διαταραχές →
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+
             return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`relative text-[0.8125rem] tracking-[0.01em] transition-colors ${
-                  overDarkHero
-                    ? "text-moon-200/75 hover:text-cream-50"
-                    : "text-ink-700 hover:text-navy-600"
-                } ${active ? (overDarkHero ? "text-cream-50" : "text-navy-600") : ""}`}
-              >
+              <Link key={item.href} href={item.href} className={link(active)}>
                 {item.label}
-                {active && (
-                  <span
-                    className={`absolute -bottom-1.5 left-0 h-px w-full ${
-                      overDarkHero ? "bg-brass-400/70" : "bg-brass-500"
-                    }`}
-                  />
-                )}
               </Link>
             );
           })}
@@ -75,14 +113,16 @@ export default function Header() {
         <div className="flex items-center gap-3">
           <a
             href={site.phoneHref}
-            className={`group flex items-center gap-2.5 rounded-full px-4 py-2.5 text-[0.8125rem] font-medium transition-all duration-300 sm:px-5 ${
-              overDarkHero
-                ? "bg-cream-50/10 text-cream-50 ring-1 ring-moon-200/25 hover:bg-cream-50 hover:text-midnight-900"
+            className={`group hidden items-center gap-2.5 whitespace-nowrap rounded-full px-5 py-2.5 text-[0.6875rem] transition-all duration-300 sm:flex ${
+              light
+                ? "text-cream-50 ring-1 ring-moon-200/30 hover:bg-cream-50 hover:text-midnight-900"
                 : "bg-navy-600 text-cream-50 hover:bg-midnight-800"
             }`}
           >
-            <PhoneIcon className="h-[15px] w-[15px] transition-transform duration-500 group-hover:-rotate-12" />
-            <span className="tabular-nums tracking-wide">{site.phoneDisplay}</span>
+            <PhoneIcon className="h-[13px] w-[13px] transition-transform duration-500 group-hover:-rotate-12" />
+            <span className="whitespace-nowrap text-[0.625rem] font-medium uppercase tracking-[0.14em]">
+              {site.phoneDisplay}
+            </span>
           </a>
 
           <button
@@ -91,9 +131,7 @@ export default function Header() {
             aria-label={open ? "Κλείσιμο μενού" : "Άνοιγμα μενού"}
             aria-expanded={open}
             className={`flex h-10 w-10 items-center justify-center rounded-full ring-1 transition-colors xl:hidden ${
-              overDarkHero
-                ? "text-cream-50 ring-moon-200/25"
-                : "text-midnight-900 ring-ink-900/15"
+              light ? "text-cream-50 ring-moon-200/25" : "text-midnight-900 ring-ink-900/15"
             }`}
           >
             <span className="relative block h-3 w-4">
@@ -119,23 +157,63 @@ export default function Header() {
 
       {/* Mobile drawer */}
       <div
-        className={`nocturne fixed inset-0 top-[74px] z-40 origin-top overflow-y-auto transition-all duration-500 xl:hidden ${
-          open
-            ? "pointer-events-auto opacity-100"
-            : "pointer-events-none -translate-y-2 opacity-0"
+        className={`nocturne fixed inset-0 top-[82px] z-40 overflow-y-auto transition-all duration-500 xl:hidden ${
+          open ? "pointer-events-auto opacity-100" : "pointer-events-none -translate-y-2 opacity-0"
         }`}
       >
         <nav className="flex flex-col px-6 py-8">
-          {nav.map((item, i) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="border-b border-moon-200/10 py-4 font-display text-[1.65rem] text-cream-50/90 transition-colors hover:text-brass-400"
-              style={{ transitionDelay: `${i * 20}ms` }}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {nav.map((item) =>
+            item.href === "/diataraches-ypnou" ? (
+              <div key={item.href} className="border-b border-moon-200/10">
+                <button
+                  type="button"
+                  onClick={() => setSubmenu((v) => !v)}
+                  className="flex w-full items-center justify-between py-4 text-left font-display text-[1.5rem] text-cream-50/90"
+                >
+                  {item.label}
+                  <span
+                    className={`text-brass-400 transition-transform duration-300 ${
+                      submenu ? "rotate-45" : ""
+                    }`}
+                  >
+                    +
+                  </span>
+                </button>
+                <div
+                  className="grid transition-[grid-template-rows] duration-400"
+                  style={{ gridTemplateRows: submenu ? "1fr" : "0fr" }}
+                >
+                  <div className="overflow-hidden">
+                    <div className="pb-4 pl-4">
+                      {disorders.map((d) => (
+                        <Link
+                          key={d.slug}
+                          href={`/diataraches-ypnou/${d.slug}`}
+                          className="block py-2.5 text-[0.9375rem] text-moon-200/65"
+                        >
+                          {d.nav}
+                        </Link>
+                      ))}
+                      <Link
+                        href="/diataraches-ypnou"
+                        className="block py-2.5 text-[0.8125rem] uppercase tracking-[0.16em] text-brass-400"
+                      >
+                        Όλες →
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="border-b border-moon-200/10 py-4 font-display text-[1.5rem] text-cream-50/90 transition-colors hover:text-brass-400"
+              >
+                {item.label}
+              </Link>
+            ),
+          )}
           <a
             href={site.phoneHref}
             className="mt-8 flex items-center justify-center gap-3 rounded-full bg-brass-500 px-6 py-4 text-sm font-medium text-midnight-950"
@@ -143,9 +221,6 @@ export default function Header() {
             <PhoneIcon className="h-4 w-4" />
             Καλέστε {site.phoneDisplay}
           </a>
-          <p className="mt-6 text-center text-xs leading-relaxed text-moon-200/45">
-            {site.address.street}, {site.address.area}
-          </p>
         </nav>
       </div>
     </header>
