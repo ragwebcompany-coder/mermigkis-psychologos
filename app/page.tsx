@@ -1,6 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
+import ScrollProgress from "@/components/ScrollProgress";
+import StatsBand from "@/components/Stats";
+import MethodStepper from "@/components/MethodStepper";
+import MiniTest from "@/components/MiniTest";
+import { HeroHalo } from "@/components/HeroAtmosphere";
 import Accordion from "@/components/Accordion";
 import { Seal } from "@/components/Logo";
 import { PhoneIcon } from "@/components/Header";
@@ -12,7 +17,7 @@ import {
   SectionHead,
   Stars,
 } from "@/components/ui";
-import { faq, method } from "@/lib/content";
+import { faq } from "@/lib/content";
 import { disorders } from "@/lib/disorders";
 import { site } from "@/lib/site";
 
@@ -75,14 +80,16 @@ const firstSession = [
 export default function Home() {
   return (
     <>
+      <ScrollProgress />
+
       {/* ── Hero ─────────────────────────────────────────────── */}
       <section className="nocturne relative flex min-h-[100svh] items-center overflow-hidden px-5 pb-16 pt-32 text-center text-cream-50 sm:px-8">
         <Stars />
-        <div className="pointer-events-none absolute left-1/2 top-1/3 h-[760px] w-[760px] -translate-x-1/2 -translate-y-1/3 rounded-full bg-[radial-gradient(circle,rgba(207,224,244,0.09)_0%,transparent_62%)]" />
+        <HeroHalo />
 
         <div className="relative mx-auto w-full max-w-3xl">
           <Reveal>
-            <Seal id="hero-seal" className="mx-auto h-32 w-32 sm:h-40 sm:w-40" />
+            <Seal id="hero-seal" className="mx-auto h-32 w-32 transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.05] sm:h-40 sm:w-40" />
           </Reveal>
 
           <Reveal delay={110}>
@@ -104,12 +111,12 @@ export default function Home() {
 
           <Reveal delay={270}>
             <div className="mt-11 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <ButtonLink href="/test-aypnias" variant="brass">
+              <ButtonLink href="/test-aypnias" variant="brass" className="sheen">
                 Τεστ αϋπνίας
               </ButtonLink>
               <a
                 href={site.phoneHref}
-                className="eyebrow inline-flex items-center gap-2.5 rounded-full px-8 py-4 text-[0.625rem] text-cream-50 ring-1 ring-moon-200/30 transition-colors hover:bg-cream-50/10"
+                className="eyebrow group inline-flex items-center gap-2.5 rounded-full px-8 py-4 text-[0.625rem] text-cream-50 ring-1 ring-moon-200/30 transition-all duration-300 hover:bg-cream-50/10 hover:ring-brass-400/60"
               >
                 <PhoneIcon className="h-[13px] w-[13px]" />
                 {site.phoneDisplay}
@@ -127,15 +134,18 @@ export default function Home() {
           <Reveal delay={410}>
             <div className="mt-16 grid divide-y divide-moon-200/10 border-t border-moon-200/10 pt-2 sm:grid-cols-3 sm:divide-x sm:divide-y-0 sm:pt-0">
               {pillars.map((p) => (
-                <div key={p.label} className="px-4 py-7 sm:py-9">
+                <div
+                  key={p.label}
+                  className="group px-4 py-7 transition-colors duration-500 hover:bg-cream-50/[0.03] sm:py-9"
+                >
                   <svg
                     viewBox="0 0 40 40"
-                    className="mx-auto h-8 w-8 text-moon-300/55"
+                    className="mx-auto h-8 w-8 text-moon-300/55 transition-all duration-500 group-hover:-translate-y-0.5 group-hover:text-brass-400"
                     fill="none"
                   >
                     {p.icon}
                   </svg>
-                  <p className="eyebrow mt-5 text-[0.625rem] text-moon-200/70">
+                  <p className="eyebrow mt-5 text-[0.625rem] text-moon-200/70 transition-colors duration-500 group-hover:text-cream-50">
                     {p.label}
                   </p>
                   <p className="mt-2 text-[0.75rem] text-moon-200/35">{p.body}</p>
@@ -170,6 +180,14 @@ export default function Home() {
         </Reveal>
       </Section>
 
+      {/* ── Αριθμοί ──────────────────────────────────────────── */}
+      <section className="nocturne relative overflow-hidden px-5 py-20 text-cream-50 sm:px-8 sm:py-24">
+        <Stars />
+        <div className="relative">
+          <StatsBand />
+        </div>
+      </section>
+
       {/* ── Ενδεικτικά αιτήματα ──────────────────────────────── */}
       <Section className="bg-cream-100">
         <Reveal>
@@ -185,16 +203,22 @@ export default function Home() {
             <Reveal as="li" key={d.slug} delay={(i % 4) * 70}>
               <Link
                 href={`/diataraches-ypnou/${d.slug}`}
-                className="group block border-t border-ink-900/12 pt-6 transition-colors hover:border-brass-500/60"
+                className="group lift grow-rule block rounded-b-[18px] border-t border-ink-900/12 px-1 pb-6 pt-6 hover:bg-cream-50"
               >
-                <h3 className="font-display text-[1.3rem] leading-snug text-midnight-900">
+                <span className="eyebrow block text-[0.5625rem] text-ink-400 transition-colors duration-500 group-hover:text-brass-500">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <h3 className="mt-3 font-display text-[1.3rem] leading-snug text-midnight-900">
                   {d.nav}
                 </h3>
                 <p className="mt-3 text-[0.875rem] leading-[1.8] text-ink-500 text-pretty">
                   {d.short}
                 </p>
-                <span className="eyebrow mt-5 inline-block text-[0.5625rem] text-navy-600 transition-colors group-hover:text-brass-500">
-                  Περισσότερα →
+                <span className="eyebrow mt-5 inline-flex items-center gap-2 text-[0.5625rem] text-navy-600 transition-colors duration-300 group-hover:text-brass-500">
+                  Περισσότερα
+                  <span className="transition-transform duration-300 group-hover:translate-x-1.5">
+                    →
+                  </span>
                 </span>
               </Link>
             </Reveal>
@@ -217,25 +241,11 @@ export default function Home() {
           />
         </Reveal>
 
-        <div className="mx-auto mt-16 max-w-4xl divide-y divide-ink-900/10">
-          {method.map((m, i) => (
-            <Reveal key={m.n} delay={i * 70}>
-              <div className="grid gap-4 py-9 sm:grid-cols-[auto_1fr] sm:gap-12">
-                <span className="font-display text-[1.4rem] tabular-nums text-brass-500 sm:w-12">
-                  {m.n}
-                </span>
-                <div>
-                  <h3 className="font-display text-[1.45rem] leading-snug text-midnight-900">
-                    {m.title}
-                  </h3>
-                  <p className="mt-3.5 text-[1rem] leading-[1.85] text-ink-700 text-pretty">
-                    {m.body}
-                  </p>
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+        <Reveal delay={80}>
+          <div className="mt-16">
+            <MethodStepper />
+          </div>
+        </Reveal>
 
         <Reveal delay={200}>
           <div className="mt-14 text-center">
@@ -251,16 +261,19 @@ export default function Home() {
         <Stars />
         <div className="relative mx-auto grid max-w-[1100px] items-center gap-14 lg:grid-cols-[0.75fr_1.25fr] lg:gap-20">
           <Reveal>
-            <div className="relative mx-auto max-w-[300px]">
-              <div className="absolute -inset-3 rounded-full border border-brass-400/25" />
-              <Image
-                src="/img/michalis.jpg"
-                alt="Ο ψυχολόγος Μιχαήλ Μερμίγκης"
-                width={230}
-                height={250}
-                sizes="(min-width: 1024px) 300px, 70vw"
-                className="relative aspect-square w-full rounded-full object-cover grayscale-[25%]"
-              />
+            <div className="group relative mx-auto max-w-[300px]">
+              <div className="absolute -inset-3 rounded-full border border-brass-400/25 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-inset-5 group-hover:border-brass-400/50" />
+              <div className="absolute -inset-8 rounded-full border border-moon-200/10 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:opacity-100" />
+              <div className="relative overflow-hidden rounded-full">
+                <Image
+                  src="/img/michalis.jpg"
+                  alt="Ο ψυχολόγος Μιχαήλ Μερμίγκης"
+                  width={230}
+                  height={250}
+                  sizes="(min-width: 1024px) 300px, 70vw"
+                  className="aspect-square w-full object-cover grayscale-[25%] transition-all duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06] group-hover:grayscale-0"
+                />
+              </div>
             </div>
           </Reveal>
 
@@ -308,9 +321,11 @@ export default function Home() {
         <div className="mt-16 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {firstSession.map((s, i) => (
             <Reveal key={s.n} delay={i * 80}>
-              <div className="text-center">
-                <span className="eyebrow text-brass-500">{s.n}</span>
-                <h3 className="mt-4 font-display text-[1.3rem] leading-snug text-midnight-900">
+              <div className="lift group h-full rounded-[22px] border border-ink-900/8 bg-cream-100/60 px-7 py-9 text-center hover:border-brass-500/40 hover:bg-cream-50">
+                <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-full border border-brass-500/35 font-display text-[0.9rem] tabular-nums text-brass-500 transition-colors duration-500 group-hover:border-brass-500 group-hover:bg-brass-500 group-hover:text-cream-50">
+                  {s.n}
+                </span>
+                <h3 className="mt-5 font-display text-[1.3rem] leading-snug text-midnight-900">
                   {s.t}
                 </h3>
                 <p className="mt-3 text-[0.9375rem] leading-[1.8] text-ink-500 text-pretty">
@@ -334,15 +349,16 @@ export default function Home() {
             </h2>
             <p className="mt-6 text-[1.0625rem] leading-[1.9] text-ink-700 text-pretty">
               Σταθμισμένο εργαλείο ανίχνευσης με ελληνική προέλευση και διεθνή
-              χρήση. Βαθμολογία 6 και άνω στα 24 θεωρείται ένδειξη αϋπνίας που
-              χρήζει αξιολόγησης. Το αποτέλεσμα υπολογίζεται στη συσκευή σας και
-              δεν αποστέλλεται πουθενά.
+              χρήση. Το αποτέλεσμα υπολογίζεται στη συσκευή σας και δεν
+              αποστέλλεται πουθενά. Δοκιμάστε τις δύο πρώτες ερωτήσεις εδώ.
             </p>
-            <div className="mt-10">
-              <ButtonLink href="/test-aypnias" variant="primary">
-                Ξεκινήστε το τεστ
-              </ButtonLink>
-            </div>
+            <Ornament className="mt-10" />
+          </div>
+        </Reveal>
+
+        <Reveal delay={120}>
+          <div className="mt-14">
+            <MiniTest />
           </div>
         </Reveal>
       </Section>
@@ -381,9 +397,9 @@ export default function Home() {
           <div className="mx-auto mt-14 max-w-4xl text-center">
             <a
               href={site.phoneHref}
-              className="inline-flex items-center gap-4 font-display text-[2.2rem] leading-none tabular-nums text-midnight-900 transition-colors hover:text-navy-600 sm:text-[2.8rem]"
+              className="group inline-flex items-center gap-4 font-display text-[2.2rem] leading-none tabular-nums text-midnight-900 transition-colors duration-300 hover:text-navy-600 sm:text-[2.8rem]"
             >
-              <PhoneIcon className="h-7 w-7 text-brass-500" />
+              <PhoneIcon className="h-7 w-7 text-brass-500 transition-transform duration-500 group-hover:-rotate-12 group-hover:scale-110" />
               {site.phoneDisplay}
             </a>
 
@@ -393,7 +409,7 @@ export default function Home() {
                 title="Χάρτης — Γαργηττού 117, Γέρακας"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                className="h-[400px] w-full grayscale-[35%]"
+                className="h-[400px] w-full grayscale-[35%] transition-all duration-700 hover:grayscale-0"
               />
             </div>
 

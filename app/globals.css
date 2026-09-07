@@ -121,3 +121,63 @@
   .hl-light { color: var(--color-brass-400); }
   .display-italic { font-family: var(--font-display); font-style: italic; }
 }
+
+/* ── interactive layer ─────────────────────────────────────── */
+@layer utilities {
+  /* soft floating drift for the hero halo */
+  @keyframes drift {
+    0%, 100% { transform: scale(1); opacity: 0.85; }
+    50%      { transform: scale(1.07); opacity: 1; }
+  }
+
+  @keyframes sheen {
+    from { transform: translateX(-120%) skewX(-18deg); }
+    to   { transform: translateX(220%) skewX(-18deg); }
+  }
+
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(6px); }
+  }
+
+  /* light sweep across a filled button on hover */
+  .sheen { position: relative; overflow: hidden; isolation: isolate; }
+  .sheen::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 45%;
+    background: linear-gradient(100deg, transparent, rgba(255,255,255,0.42), transparent);
+    transform: translateX(-120%) skewX(-18deg);
+    pointer-events: none;
+  }
+  .sheen:hover::after { animation: sheen 0.85s var(--ease-out-soft); }
+
+  /* card that lifts and warms on hover */
+  .lift {
+    transition: transform 0.5s var(--ease-out-soft),
+                box-shadow 0.5s var(--ease-out-soft),
+                border-color 0.4s ease;
+  }
+  .lift:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 26px 60px -32px rgba(9, 20, 38, 0.45);
+  }
+
+  .bob { animation: bob 2.6s ease-in-out infinite; }
+
+  /* underline that grows from the left on hover */
+  .grow-rule { position: relative; }
+  .grow-rule::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: -1px;
+    height: 1px;
+    width: 0;
+    background: var(--color-brass-500);
+    transition: width 0.55s var(--ease-out-soft);
+  }
+  .group:hover .grow-rule::after,
+  .grow-rule:hover::after { width: 100%; }
+}
