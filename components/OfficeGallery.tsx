@@ -53,7 +53,7 @@ export default function OfficeGallery() {
           />
         ))}
 
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-midnight-950/95 via-midnight-950/65 to-transparent px-7 pb-7 pt-24 sm:px-9 sm:pb-9 sm:pt-28">
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-midnight-950/95 via-midnight-950/65 to-transparent px-6 pb-6 pt-16 sm:px-9 sm:pb-9 sm:pt-28">
           <p className="eyebrow text-[0.5625rem] text-brass-400">
             {officeShots[active].label}
           </p>

@@ -119,7 +119,9 @@ export function Logo({
 
   return (
     <span
-      className={`flex items-center ${lg ? "gap-5 sm:gap-7" : "gap-3"} ${className}`}
+      className={`flex items-center ${
+        lg ? "flex-col gap-4 sm:flex-row sm:gap-7" : "gap-3"
+      } ${className}`}
     >
       <LogoMark
         tone={tone}
@@ -128,7 +130,7 @@ export function Logo({
       <span className="flex flex-col leading-none">
         <span
           className={`font-display tracking-[0.09em] ${name} ${
-            lg ? "text-[1.4rem] sm:text-[2rem]" : "text-[1rem]"
+            lg ? "text-[1.5rem] sm:text-[2rem]" : "text-[1rem]"
           }`}
         >
           ΜΕΡΜΙΓΚΗΣ ΜΙΧΑΗΛ

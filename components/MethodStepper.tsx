@@ -29,7 +29,7 @@ export default function MethodStepper() {
   return (
     <div className="mx-auto grid max-w-[1000px] gap-10 lg:grid-cols-[minmax(0,340px)_1fr] lg:gap-16">
       {/* steps */}
-      <div className="relative">
+      <div className="relative min-w-0">
         <span
           aria-hidden="true"
           className="absolute left-0 top-0 hidden w-px bg-ink-900/10 lg:block"
@@ -79,7 +79,7 @@ export default function MethodStepper() {
       </div>
 
       {/* panel */}
-      <div className="min-h-[190px] border-t border-ink-900/10 pt-8 lg:border-l lg:border-t-0 lg:pl-16 lg:pt-0">
+      <div className="min-w-0 min-h-[190px] border-t border-ink-900/10 pt-8 lg:border-l lg:border-t-0 lg:pl-16 lg:pt-0">
         <p key={current.n} className="animate-[rise_0.5s_var(--ease-out-soft)_forwards]">
           <span className="eyebrow block text-brass-500">
             Συστατικό {current.n}

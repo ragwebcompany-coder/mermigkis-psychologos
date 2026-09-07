@@ -41,12 +41,26 @@ function useCountUp(target: number, run: boolean, duration = 1100) {
   return n;
 }
 
-function StatCell({ stat, run }: { stat: Stat; run: boolean }) {
+function StatCell({
+  stat,
+  run,
+  index,
+}: {
+  stat: Stat;
+  run: boolean;
+  index: number;
+}) {
   const from = useCountUp(stat.from ?? 0, run);
   const to = useCountUp(stat.to, run);
 
   return (
-    <div className="px-4 py-8 text-center sm:py-10">
+    <div
+      className={`border-moon-200/10 px-4 py-8 text-center sm:py-10 ${
+        index % 2 === 1 ? "border-l" : ""
+      } ${index >= 2 ? "border-t lg:border-t-0" : ""} ${
+        index === 0 ? "" : "lg:border-l"
+      }`}
+    >
       <p className="font-display text-[2.6rem] leading-none tabular-nums text-brass-400 sm:text-[3.2rem]">
         {stat.from !== undefined ? `${from}–${to}` : to}
         <span className="text-[1.5rem] sm:text-[1.8rem]">{stat.suffix}</span>
@@ -81,10 +95,10 @@ export default function StatsBand() {
   return (
     <div
       ref={ref}
-      className="mx-auto grid max-w-[1100px] grid-cols-2 divide-x divide-y divide-moon-200/10 lg:grid-cols-4 lg:divide-y-0"
+      className="mx-auto grid max-w-[1100px] grid-cols-2 lg:grid-cols-4"
     >
-      {stats.map((s) => (
-        <StatCell key={s.label} stat={s} run={run} />
+      {stats.map((s, i) => (
+        <StatCell key={s.label} stat={s} run={run} index={i} />
       ))}
     </div>
   );
