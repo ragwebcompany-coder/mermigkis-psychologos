@@ -7,16 +7,10 @@ export type Shot = { src: string; label: string; caption: string };
 
 export const officeShots: Shot[] = [
   {
-    src: "/img/grafeio/tampela.jpg",
-    label: "Η ταμπέλα",
+    src: "/img/grafeio/grafeio-2.jpg",
+    label: "Ο χώρος συνεδρίας",
     caption:
-      "Η πινακίδα στην είσοδο — το φεγγάρι με τα τρία zZ από το οποίο προέκυψε και το σήμα του γραφείου.",
-  },
-  {
-    src: "/img/grafeio/prosopsi.jpg",
-    label: "Η πρόσοψη",
-    caption:
-      "Το κτήριο στη Γαργηττού 117. Ελεύθερη στάθμευση στους γύρω δρόμους.",
+      "Εδώ γίνονται οι συνεδρίες — ήσυχα, με φυσικό φως και χωρίς κλινική ψυχρότητα.",
   },
   {
     src: "/img/grafeio/anamoni.jpg",
@@ -25,16 +19,16 @@ export const officeShots: Shot[] = [
       "Μικρός χώρος υποδοχής. Τα ραντεβού ορίζονται ώστε να μη συμπίπτουν.",
   },
   {
-    src: "/img/grafeio/grafeio-1.jpg",
-    label: "Ο χώρος συνεδρίας",
+    src: "/img/grafeio/prosopsi.jpg",
+    label: "Η πρόσοψη",
     caption:
-      "Εδώ γίνονται οι συνεδρίες — ήσυχα, με φυσικό φως και χωρίς κλινική ψυχρότητα.",
+      "Το κτήριο στη Γαργηττού 117. Ελεύθερη στάθμευση στους γύρω δρόμους.",
   },
   {
-    src: "/img/grafeio/grafeio-2.jpg",
-    label: "Το φως",
+    src: "/img/grafeio/tampela.jpg",
+    label: "Η ταμπέλα",
     caption:
-      "Το γραφείο βλέπει σε μπαλκόνι· το φως ρυθμίζεται ανάλογα με την ώρα της συνεδρίας.",
+      "Η πινακίδα στην είσοδο — το φεγγάρι με τα τρία zZ από το οποίο προέκυψε και το σήμα του γραφείου.",
   },
 ];
 
@@ -69,7 +63,7 @@ export default function OfficeGallery() {
         </div>
       </div>
 
-      <div className="mt-4 grid grid-cols-5 gap-3 sm:gap-4">
+      <div className="mt-4 grid grid-cols-4 gap-3 sm:gap-4">
         {officeShots.map((shot, i) => (
           <button
             key={shot.src}
