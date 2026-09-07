@@ -85,8 +85,8 @@ export default function BioPage() {
               <Image
                 src="/img/michalis.jpg"
                 alt="Ο ψυχολόγος Μιχαήλ Μερμίγκης"
-                width={230}
-                height={250}
+                width={900}
+                height={900}
                 sizes="(min-width: 1024px) 400px, 80vw"
                 className="relative w-full rounded-2xl object-cover grayscale-[15%]"
                 priority

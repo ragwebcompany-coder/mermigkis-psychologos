@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Reveal from "@/components/Reveal";
-import { Seal } from "@/components/Logo";
+import OfficeGallery from "@/components/OfficeGallery";
 import { PhoneIcon } from "@/components/Header";
 import { ButtonLink, Eyebrow, PageHero, Section, SectionHead } from "@/components/ui";
 import { site } from "@/lib/site";
@@ -38,8 +38,7 @@ export default function OfficePage() {
       <Section className="bg-cream-50">
         <Reveal>
           <div className="mx-auto max-w-3xl text-center">
-            <Seal id="office-seal" tone="dark" className="mx-auto h-28 w-28" />
-            <p className="mt-10 font-display text-[1.6rem] leading-[1.55] text-balance text-midnight-900 sm:text-[2rem]">
+            <p className="font-display text-[1.6rem] leading-[1.55] text-balance text-midnight-900 sm:text-[2rem]">
               Η θεραπεία της αϋπνίας δεν χρειάζεται εντυπωσιακό περιβάλλον.
               Χρειάζεται <span className="display-italic hl">ησυχία</span>, χρόνο
               και συνέπεια.
@@ -51,6 +50,21 @@ export default function OfficePage() {
               παραπομπή γίνεται στο Εργαστήριο Ύπνου του Ερρίκος Ντυνάν Hospital
               Center, όπου και η κλινική συνεργασία.
             </p>
+          </div>
+        </Reveal>
+      </Section>
+
+      <Section className="bg-cream-100 pb-0 sm:pb-0">
+        <Reveal>
+          <SectionHead
+            eyebrow="Ο χώρος"
+            title="Πέντε λήψεις από το γραφείο"
+            intro="Από την πινακίδα στην είσοδο μέχρι τη θέση όπου γίνεται η συνεδρία."
+          />
+        </Reveal>
+        <Reveal delay={120}>
+          <div className="mt-14">
+            <OfficeGallery />
           </div>
         </Reveal>
       </Section>
