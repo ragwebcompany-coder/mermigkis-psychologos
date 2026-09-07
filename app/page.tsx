@@ -8,7 +8,7 @@ import MiniTest from "@/components/MiniTest";
 import { HeroHalo } from "@/components/HeroAtmosphere";
 import HeroVideo from "@/components/HeroVideo";
 import Accordion from "@/components/Accordion";
-import { Seal } from "@/components/Logo";
+import { Logo } from "@/components/Logo";
 import { PhoneIcon } from "@/components/Header";
 import {
   ButtonLink,
@@ -90,7 +90,11 @@ export default function Home() {
 
         <div className="relative mx-auto w-full max-w-3xl">
           <Reveal>
-            <Seal id="hero-seal" className="mx-auto h-32 w-32 transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.05] sm:h-40 sm:w-40" />
+            <Logo
+              tone="light"
+              size="lg"
+              className="justify-center transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.03]"
+            />
           </Reveal>
 
           <Reveal delay={110}>

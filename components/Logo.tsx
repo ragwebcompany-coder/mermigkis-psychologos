@@ -103,25 +103,43 @@ export function Seal({
   );
 }
 
-/** Horizontal lockup for the header. */
+/** Horizontal lockup — the header mark, also used large at the top of the hero. */
 export function Logo({
   tone = "dark",
+  size = "sm",
   className = "",
 }: {
   tone?: Tone;
+  size?: "sm" | "lg";
   className?: string;
 }) {
   const name = tone === "light" ? "text-cream-50" : "text-midnight-900";
   const sub = tone === "light" ? "text-moon-400/70" : "text-ink-500";
+  const lg = size === "lg";
 
   return (
-    <span className={`flex items-center gap-3 ${className}`}>
-      <LogoMark tone={tone} className="h-8 w-8 shrink-0" />
+    <span
+      className={`flex items-center ${lg ? "gap-5 sm:gap-7" : "gap-3"} ${className}`}
+    >
+      <LogoMark
+        tone={tone}
+        className={lg ? "h-14 w-14 shrink-0 sm:h-[68px] sm:w-[68px]" : "h-8 w-8 shrink-0"}
+      />
       <span className="flex flex-col leading-none">
-        <span className={`font-display text-[1rem] tracking-[0.09em] ${name}`}>
+        <span
+          className={`font-display tracking-[0.09em] ${name} ${
+            lg ? "text-[1.4rem] sm:text-[2rem]" : "text-[1rem]"
+          }`}
+        >
           ΜΕΡΜΙΓΚΗΣ ΜΙΧΑΗΛ
         </span>
-        <span className={`mt-[6px] eyebrow text-[0.5rem] ${sub}`}>
+        <span
+          className={`eyebrow ${sub} ${
+            lg
+              ? "mt-3 text-[0.625rem] tracking-[0.42em] sm:text-[0.6875rem]"
+              : "mt-[6px] text-[0.5rem]"
+          }`}
+        >
           Ψυχολόγος
         </span>
       </span>
