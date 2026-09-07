@@ -6,6 +6,7 @@ import StatsBand from "@/components/Stats";
 import MethodStepper from "@/components/MethodStepper";
 import MiniTest from "@/components/MiniTest";
 import { HeroHalo } from "@/components/HeroAtmosphere";
+import HeroVideo from "@/components/HeroVideo";
 import Accordion from "@/components/Accordion";
 import { Seal } from "@/components/Logo";
 import { PhoneIcon } from "@/components/Header";
@@ -84,7 +85,7 @@ export default function Home() {
 
       {/* ── Hero ─────────────────────────────────────────────── */}
       <section className="nocturne relative flex min-h-[100svh] items-center overflow-hidden px-5 pb-16 pt-32 text-center text-cream-50 sm:px-8">
-        <Stars />
+        <HeroVideo />
         <HeroHalo />
 
         <div className="relative mx-auto w-full max-w-3xl">
