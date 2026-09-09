@@ -31,6 +31,7 @@ export const nav: NavItem[] = [
   { href: "/diataraches-ypnou", label: "Διαταραχές ύπνου" },
   { href: "/test-aypnias", label: "Τεστ αϋπνίας" },
   { href: "/to-grafeio", label: "Το γραφείο" },
+  { href: "/arthrografia", label: "Αρθρογραφία" },
   { href: "/syhnes-erotiseis", label: "Ερωτήσεις" },
   { href: "/epikoinonia", label: "Επικοινωνία" },
 ];

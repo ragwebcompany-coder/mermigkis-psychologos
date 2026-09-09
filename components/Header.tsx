@@ -59,7 +59,7 @@ export default function Header() {
           <Logo tone={light ? "light" : "dark"} />
         </Link>
 
-        <nav className="hidden items-center gap-6 xl:flex">
+        <nav className="hidden items-center gap-6 min-[1400px]:flex">
           {nav.slice(1).map((item) => {
             const active =
               pathname === item.href ||
@@ -130,7 +130,7 @@ export default function Header() {
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? "Κλείσιμο μενού" : "Άνοιγμα μενού"}
             aria-expanded={open}
-            className={`flex h-10 w-10 items-center justify-center rounded-full ring-1 transition-colors xl:hidden ${
+            className={`flex h-10 w-10 items-center justify-center rounded-full ring-1 transition-colors min-[1400px]:hidden ${
               light ? "text-cream-50 ring-moon-200/25" : "text-midnight-900 ring-ink-900/15"
             }`}
           >
@@ -157,7 +157,7 @@ export default function Header() {
 
       {/* Mobile drawer */}
       <div
-        className={`nocturne fixed inset-0 top-[82px] z-40 overflow-y-auto transition-all duration-500 xl:hidden ${
+        className={`nocturne fixed inset-0 top-[82px] z-40 overflow-y-auto transition-all duration-500 min-[1400px]:hidden ${
           open ? "pointer-events-auto opacity-100" : "pointer-events-none -translate-y-2 opacity-0"
         }`}
       >

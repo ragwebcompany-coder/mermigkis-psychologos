@@ -273,8 +273,8 @@ export default function Home() {
                 <Image
                   src="/img/michalis.jpg"
                   alt="Ο ψυχολόγος Μιχαήλ Μερμίγκης"
-                  width={900}
-                  height={900}
+                  width={800}
+                  height={800}
                   sizes="(min-width: 1024px) 300px, 70vw"
                   className="aspect-square w-full object-cover grayscale-[25%] transition-all duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06] group-hover:grayscale-0"
                 />

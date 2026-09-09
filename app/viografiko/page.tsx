@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Reveal from "@/components/Reveal";
-import { ButtonLink, Eyebrow, PageHero, Section } from "@/components/ui";
+import Link from "next/link";
+import { ButtonLink, Eyebrow, Ornament, PageHero, Section } from "@/components/ui";
+import { Stars } from "@/components/ui";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -68,6 +70,13 @@ const tools = [
   "Ημερολόγιο ύπνου",
 ];
 
+const director = [
+  "American Board Certified International Sleep Specialist",
+  "Ειδίκευση στην Ιατρική του Ύπνου, Cleveland Clinic Sleep Disorders Center, Ohio, USA",
+  "Διδάκτωρ Ιατρικής Σχολής Πανεπιστημίου Κρήτης",
+  "Τέως Διευθυντής Εργαστηρίου Ύπνου, 401 Γ.Σ.Ν.Α.",
+];
+
 export default function BioPage() {
   return (
     <>
@@ -85,8 +94,8 @@ export default function BioPage() {
               <Image
                 src="/img/michalis.jpg"
                 alt="Ο ψυχολόγος Μιχαήλ Μερμίγκης"
-                width={900}
-                height={900}
+                width={800}
+                height={800}
                 sizes="(min-width: 1024px) 400px, 80vw"
                 className="relative w-full rounded-2xl object-cover grayscale-[15%]"
                 priority
@@ -161,6 +170,61 @@ export default function BioPage() {
           </Reveal>
         </div>
       </Section>
+
+      {/* ── Το πλαίσιο συνεργασίας ───────────────────────────── */}
+      <section className="nocturne relative overflow-hidden px-5 py-28 text-cream-50 sm:px-8 sm:py-36">
+        <Stars />
+        <div className="relative mx-auto max-w-3xl text-center">
+          <Eyebrow tone="light">Το πλαίσιο συνεργασίας</Eyebrow>
+          <h2 className="mt-6 font-display text-[2rem] leading-[1.16] text-balance sm:text-[2.6rem]">
+            Εργαστήριο Ύπνου (ΕΚεΔΥ)
+            <br className="hidden sm:block" /> Ερρίκος Ντυνάν Hospital Center
+          </h2>
+          <Ornament tone="light" className="mt-9" />
+
+          <p className="mx-auto mt-10 max-w-2xl text-[1.0625rem] leading-[1.9] text-moon-200/65 text-pretty">
+            Η ψυχολογική παρέμβαση για τον ύπνο δεν στέκεται μόνη της. Όπου το
+            ιστορικό δείχνει ότι χρειάζεται εργαστηριακός έλεγχος — υπνική
+            άπνοια, κινητικές διαταραχές, παραϋπνίες με κίνδυνο — η αξιολόγηση
+            γίνεται στο Εργαστήριο Ύπνου του Ερρίκος Ντυνάν, όπου και η κλινική
+            συνεργασία.
+          </p>
+
+          <div className="mx-auto mt-14 max-w-xl rounded-[26px] border border-moon-200/15 bg-cream-50/[0.04] px-8 py-10 text-left sm:px-10">
+            <p className="eyebrow text-[0.5625rem] text-brass-400/90">
+              Διευθυντής Εργαστηρίου
+            </p>
+            <h3 className="mt-4 font-display text-[1.5rem] leading-snug text-cream-50 sm:text-[1.75rem]">
+              Δρ. Χαράλαμπος Μερμίγκης, MD, PhD
+            </h3>
+            <p className="mt-2 text-[0.9375rem] leading-[1.7] text-moon-200/60">
+              Πνευμονολόγος — Ειδικός Ιατρός Ύπνου
+            </p>
+            <ul className="mt-7 space-y-3.5 border-t border-moon-200/12 pt-7 text-[0.9375rem] leading-[1.75] text-moon-200/70">
+              {director.map((d) => (
+                <li key={d} className="flex gap-3 text-pretty">
+                  <span className="mt-[0.55rem] h-1 w-1 shrink-0 rounded-full bg-brass-400/70" />
+                  <span>{d}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <p className="mx-auto mt-10 max-w-2xl text-[0.9375rem] leading-[1.8] text-moon-200/45 text-pretty">
+            Ο Μιχαήλ Μερμίγκης συνεργάζεται με το Εργαστήριο ως ψυχολόγος και
+            συνυπογράφει τη σχετική αρθρογραφία.
+          </p>
+
+          <div className="mt-10">
+            <Link
+              href="/arthrografia"
+              className="eyebrow inline-flex items-center justify-center rounded-full px-8 py-4 text-[0.625rem] text-cream-50 ring-1 ring-moon-200/30 transition-all duration-300 hover:bg-cream-50/10 hover:ring-brass-400/60"
+            >
+              Αρθρογραφία
+            </Link>
+          </div>
+        </div>
+      </section>
 
       <Section className="bg-cream-100">
         <div className="grid gap-16 lg:grid-cols-2 lg:gap-24">
