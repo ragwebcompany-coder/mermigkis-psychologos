@@ -174,7 +174,7 @@ export default function Home() {
               πεδίο στο οποίο εκπαιδεύτηκα και μέσα στο οποίο δουλεύω καθημερινά.
             </p>
             <p className="mx-auto mt-8 max-w-2xl text-[1.0625rem] leading-[1.9] text-ink-700 text-pretty">
-              Ιδιωτικό γραφείο στον Γέρακα, με εξειδικευμένη εκπαίδευση στη
+              Ιδιωτικό γραφείο στα Μελίσσια, με εξειδικευμένη εκπαίδευση στη
               Γνωσιακή Συμπεριφορική Θεραπεία της Αϋπνίας από την Εταιρεία
               Γνωσιακών Συμπεριφοριστικών Σπουδών, και συνεργασία με το
               Εργαστήριο Ύπνου του Ερρίκος Ντυνάν Hospital Center — ώστε όπου
@@ -411,7 +411,7 @@ export default function Home() {
             <div className="mt-14 overflow-hidden rounded-[26px] border border-ink-900/8">
               <iframe
                 src={site.mapEmbed}
-                title="Χάρτης — Γαργηττού 117, Γέρακας"
+                title="Χάρτης — Παναγή Τσαλδάρη 21, Μελίσσια"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 className="h-[400px] w-full grayscale-[35%] transition-all duration-700 hover:grayscale-0"

@@ -22,7 +22,7 @@ export const officeShots: Shot[] = [
     src: "/img/grafeio/prosopsi.jpg",
     label: "Η πρόσοψη",
     caption:
-      "Το κτήριο στη Γαργηττού 117. Ελεύθερη στάθμευση στους γύρω δρόμους.",
+      "Το κτήριο στην Παναγή Τσαλδάρη 21. Ελεύθερη στάθμευση στους γύρω δρόμους.",
   },
   {
     src: "/img/grafeio/tampela.jpg",

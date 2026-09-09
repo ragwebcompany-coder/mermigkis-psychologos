@@ -7,7 +7,7 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Επικοινωνία",
   description:
-    "Γραφείο: Γαργηττού 117, Γέρακας. Ραντεβού κατόπιν τηλεφωνικής επικοινωνίας στο 6955 433 380.",
+    "Γραφείο: Παναγή Τσαλδάρη 21, Μελίσσια. Ραντεβού κατόπιν τηλεφωνικής επικοινωνίας στο 6955 433 380.",
 };
 
 export default function ContactPage() {
@@ -79,7 +79,7 @@ export default function ContactPage() {
             <div className="overflow-hidden rounded-[26px] border border-ink-900/8">
               <iframe
                 src={site.mapEmbed}
-                title="Χάρτης — Γαργηττού 117, Γέρακας"
+                title="Χάρτης — Παναγή Τσαλδάρη 21, Μελίσσια"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 className="h-[560px] w-full grayscale-[35%]"
