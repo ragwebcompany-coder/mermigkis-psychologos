@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Seal } from "./Logo";
+import { Logo } from "./Logo";
 import { PhoneIcon } from "./Header";
 import { Ornament } from "./ui";
 import { disorders } from "@/lib/disorders";
@@ -12,7 +12,7 @@ export default function Footer() {
 
       <div className="mx-auto max-w-[1240px] px-5 py-24 sm:px-8">
         <div className="text-center">
-          <Seal id="footer-seal" className="mx-auto h-28 w-28" />
+          <Logo tone="light" size="lg" className="justify-center" />
           <p className="mx-auto mt-8 max-w-md text-[0.9375rem] leading-[1.85] text-moon-200/55">
             Γνωσιακή Συμπεριφορική Θεραπεία της Αϋπνίας (CBT-I) για ενήλικες.
             Ιδιωτικό γραφείο στα Μελίσσια, σε συνεργασία με το Εργαστήριο Ύπνου
