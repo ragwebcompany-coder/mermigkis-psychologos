@@ -74,132 +74,143 @@ export default function Header({ lang }: { lang: Lang }) {
     }`;
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-500 ${
-        light
-          ? "border-b border-transparent"
-          : "border-b border-ink-900/8 bg-cream-50/92 backdrop-blur-xl"
-      }`}
-    >
-      <div className="mx-auto flex h-[82px] max-w-[1400px] items-center justify-between gap-6 px-5 sm:px-8">
-        <Link href={p("/")} aria-label={t.home} className="shrink-0">
-          <Logo lang={lang} tone={light ? "light" : "dark"} />
-        </Link>
-
-        <nav className="hidden items-center gap-5 min-[1460px]:flex">
-          {nav.slice(1).map((item) => {
-            const href = p(item.href);
-            const active =
-              pathname === href ||
-              (item.href === "/diataraches-ypnou" && pathname.startsWith(href));
-
-            if (item.href === "/diataraches-ypnou") {
-              return (
-                <div key={item.href} className="group relative">
-                  <Link href={href} className={`${link(active)} flex items-center gap-1.5`}>
-                    {item.label}
-                    <span className="text-[0.5rem] transition-transform duration-300 group-hover:rotate-180">
-                      ▾
-                    </span>
-                  </Link>
-                  <div className="invisible absolute left-1/2 top-full z-10 w-[290px] -translate-x-1/2 pt-5 opacity-0 transition-all duration-300 group-hover:visible group-hover:opacity-100">
-                    <div className="overflow-hidden rounded-2xl border border-ink-900/8 bg-cream-50 py-2 shadow-[0_28px_70px_-30px_rgba(9,20,38,0.5)]">
-                      {disorders.map((d) => (
-                        <Link
-                          key={d.slug}
-                          href={p(`/diataraches-ypnou/${d.slug}`)}
-                          className={`block px-6 py-2.5 text-[0.8125rem] transition-colors ${
-                            pathname === p(`/diataraches-ypnou/${d.slug}`)
-                              ? "text-brass-500"
-                              : "text-ink-700 hover:bg-cream-100 hover:text-midnight-900"
-                          }`}
-                        >
-                          {d.nav}
-                        </Link>
-                      ))}
-                      <Link
-                        href={p("/diataraches-ypnou")}
-                        className="mt-1 block border-t border-ink-900/8 px-6 pb-1 pt-3 text-[0.6875rem] uppercase tracking-[0.16em] text-navy-600 transition-colors hover:text-midnight-900"
-                      >
-                        {t.allDisorders}
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              );
-            }
-
-            return (
-              <Link key={item.href} href={href} className={link(active)}>
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
-
-        <div className="flex items-center gap-2.5">
-          <Link
-            href={switchPath(pathname, lang === "el" ? "en" : "el")}
-            hrefLang={lang === "el" ? "en" : "el"}
-            aria-label={t.switchLabel}
-            title={t.switchLabel}
-            className={`flex h-10 items-center rounded-full px-3 text-[0.625rem] font-medium uppercase tracking-[0.14em] ring-1 transition-all duration-300 ${
-              light
-                ? "text-moon-200/75 ring-moon-200/25 hover:text-cream-50 hover:ring-moon-200/50"
-                : "text-ink-500 ring-ink-900/12 hover:text-midnight-900 hover:ring-ink-900/30"
-            }`}
-          >
-            {lang === "el" ? "EN" : "ΕΛ"}
+    <>
+      <header
+        className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-500 ${
+          light
+            ? "border-b border-transparent"
+            : "border-b border-ink-900/8 bg-cream-50/92 backdrop-blur-xl"
+        }`}
+      >
+        <div className="mx-auto flex h-[82px] max-w-[1400px] items-center justify-between gap-6 px-5 sm:px-8">
+          <Link href={p("/")} aria-label={t.home} className="shrink-0">
+            <Logo lang={lang} tone={light ? "light" : "dark"} />
           </Link>
 
-          <a
-            href={site.phoneHref}
-            className={`group hidden items-center gap-2.5 whitespace-nowrap rounded-full px-4 py-2.5 text-[0.6875rem] transition-all duration-300 sm:flex ${
-              light
-                ? "text-cream-50 ring-1 ring-moon-200/30 hover:bg-cream-50 hover:text-midnight-900"
-                : "bg-navy-600 text-cream-50 hover:bg-midnight-800"
-            }`}
-          >
-            <PhoneIcon className="h-[13px] w-[13px] transition-transform duration-500 group-hover:-rotate-12" />
-            <span className="whitespace-nowrap text-[0.625rem] font-medium uppercase tracking-[0.14em]">
-              {site.phoneDisplay}
-            </span>
-          </a>
+          <nav className="hidden items-center gap-5 min-[1460px]:flex">
+            {nav.slice(1).map((item) => {
+              const href = p(item.href);
+              const active =
+                pathname === href ||
+                (item.href === "/diataraches-ypnou" &&
+                  pathname.startsWith(href));
 
-          <button
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            aria-label={open ? t.closeMenu : t.openMenu}
-            aria-expanded={open}
-            className={`flex h-10 w-10 items-center justify-center rounded-full ring-1 transition-colors min-[1460px]:hidden ${
-              light ? "text-cream-50 ring-moon-200/25" : "text-midnight-900 ring-ink-900/15"
-            }`}
-          >
-            <span className="relative block h-3 w-4">
-              <span
-                className={`absolute left-0 block h-px w-4 bg-current transition-transform duration-300 ${
-                  open ? "top-1.5 rotate-45" : "top-0"
-                }`}
-              />
-              <span
-                className={`absolute left-0 top-1.5 block h-px w-4 bg-current transition-opacity duration-200 ${
-                  open ? "opacity-0" : "opacity-100"
-                }`}
-              />
-              <span
-                className={`absolute left-0 block h-px w-4 bg-current transition-transform duration-300 ${
-                  open ? "top-1.5 -rotate-45" : "top-3"
-                }`}
-              />
-            </span>
-          </button>
+              if (item.href === "/diataraches-ypnou") {
+                return (
+                  <div key={item.href} className="group relative">
+                    <Link
+                      href={href}
+                      className={`${link(active)} flex items-center gap-1.5`}
+                    >
+                      {item.label}
+                      <span className="text-[0.5rem] transition-transform duration-300 group-hover:rotate-180">
+                        ▾
+                      </span>
+                    </Link>
+                    <div className="invisible absolute left-1/2 top-full z-10 w-[290px] -translate-x-1/2 pt-5 opacity-0 transition-all duration-300 group-hover:visible group-hover:opacity-100">
+                      <div className="overflow-hidden rounded-2xl border border-ink-900/8 bg-cream-50 py-2 shadow-[0_28px_70px_-30px_rgba(9,20,38,0.5)]">
+                        {disorders.map((d) => (
+                          <Link
+                            key={d.slug}
+                            href={p(`/diataraches-ypnou/${d.slug}`)}
+                            className={`block px-6 py-2.5 text-[0.8125rem] transition-colors ${
+                              pathname === p(`/diataraches-ypnou/${d.slug}`)
+                                ? "text-brass-500"
+                                : "text-ink-700 hover:bg-cream-100 hover:text-midnight-900"
+                            }`}
+                          >
+                            {d.nav}
+                          </Link>
+                        ))}
+                        <Link
+                          href={p("/diataraches-ypnou")}
+                          className="mt-1 block border-t border-ink-900/8 px-6 pb-1 pt-3 text-[0.6875rem] uppercase tracking-[0.16em] text-navy-600 transition-colors hover:text-midnight-900"
+                        >
+                          {t.allDisorders}
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+
+              return (
+                <Link key={item.href} href={href} className={link(active)}>
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          <div className="flex items-center gap-2.5">
+            <Link
+              href={switchPath(pathname, lang === "el" ? "en" : "el")}
+              hrefLang={lang === "el" ? "en" : "el"}
+              aria-label={t.switchLabel}
+              title={t.switchLabel}
+              className={`flex h-10 items-center rounded-full px-3 text-[0.625rem] font-medium uppercase tracking-[0.14em] ring-1 transition-all duration-300 ${
+                light
+                  ? "text-moon-200/75 ring-moon-200/25 hover:text-cream-50 hover:ring-moon-200/50"
+                  : "text-ink-500 ring-ink-900/12 hover:text-midnight-900 hover:ring-ink-900/30"
+              }`}
+            >
+              {lang === "el" ? "EN" : "ΕΛ"}
+            </Link>
+
+            <a
+              href={site.phoneHref}
+              className={`group hidden items-center gap-2.5 whitespace-nowrap rounded-full px-4 py-2.5 text-[0.6875rem] transition-all duration-300 sm:flex ${
+                light
+                  ? "text-cream-50 ring-1 ring-moon-200/30 hover:bg-cream-50 hover:text-midnight-900"
+                  : "bg-navy-600 text-cream-50 hover:bg-midnight-800"
+              }`}
+            >
+              <PhoneIcon className="h-[13px] w-[13px] transition-transform duration-500 group-hover:-rotate-12" />
+              <span className="whitespace-nowrap text-[0.625rem] font-medium uppercase tracking-[0.14em]">
+                {site.phoneDisplay}
+              </span>
+            </a>
+
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              aria-label={open ? t.closeMenu : t.openMenu}
+              aria-expanded={open}
+              className={`flex h-10 w-10 items-center justify-center rounded-full ring-1 transition-colors min-[1460px]:hidden ${
+                light
+                  ? "text-cream-50 ring-moon-200/25"
+                  : "text-midnight-900 ring-ink-900/15"
+              }`}
+            >
+              <span className="relative block h-3 w-4">
+                <span
+                  className={`absolute left-0 block h-px w-4 bg-current transition-transform duration-300 ${
+                    open ? "top-1.5 rotate-45" : "top-0"
+                  }`}
+                />
+                <span
+                  className={`absolute left-0 top-1.5 block h-px w-4 bg-current transition-opacity duration-200 ${
+                    open ? "opacity-0" : "opacity-100"
+                  }`}
+                />
+                <span
+                  className={`absolute left-0 block h-px w-4 bg-current transition-transform duration-300 ${
+                    open ? "top-1.5 -rotate-45" : "top-3"
+                  }`}
+                />
+              </span>
+            </button>
+          </div>
         </div>
-      </div>
+      </header>
 
-      {/* Mobile drawer */}
+      {/* Το drawer ζει έξω από το <header>: το backdrop-blur του header κάνει τον
+        εαυτό του containing block, οπότε μέσα του το fixed κατέρρεε στα 82px. */}
       <div
         className={`nocturne fixed inset-0 top-[82px] z-40 overflow-y-auto transition-all duration-500 min-[1460px]:hidden ${
-          open ? "pointer-events-auto opacity-100" : "pointer-events-none -translate-y-2 opacity-0"
+          open
+            ? "pointer-events-auto opacity-100"
+            : "pointer-events-none -translate-y-2 opacity-0"
         }`}
       >
         <nav className="flex flex-col px-6 py-8">
@@ -272,13 +283,18 @@ export default function Header({ lang }: { lang: Lang }) {
           </a>
         </nav>
       </div>
-    </header>
+    </>
   );
 }
 
 export function PhoneIcon({ className = "h-4 w-4" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      className={className}
+      fill="none"
+      aria-hidden="true"
+    >
       <path
         d="M6.6 3.5h2.2l1.5 3.7-1.8 1.3a12.5 12.5 0 0 0 5.5 5.5l1.3-1.8 3.7 1.5v2.2a2.6 2.6 0 0 1-2.9 2.6C10.3 17.9 6.1 13.7 4 7.4A2.6 2.6 0 0 1 6.6 3.5Z"
         stroke="currentColor"
