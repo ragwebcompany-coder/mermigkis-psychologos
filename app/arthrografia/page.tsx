@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Reveal from "@/components/Reveal";
 import { ButtonLink, Eyebrow, Ornament, PageHero, Section, SectionHead } from "@/components/ui";
 import { articles } from "@/lib/articles";
@@ -46,8 +47,19 @@ export default function ArticlesPage() {
                 href={a.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="lift group block rounded-[24px] border border-brass-500/35 bg-cream-100/50 px-8 py-9 hover:border-brass-500 hover:bg-cream-50 sm:px-10 sm:py-11"
+                className="lift group block overflow-hidden rounded-[24px] border border-brass-500/35 bg-cream-100/50 hover:border-brass-500 hover:bg-cream-50"
               >
+                <div className="relative aspect-[16/7] w-full overflow-hidden bg-midnight-900/5">
+                  <Image
+                    src={`/img/arthra/${a.slug}.jpg`}
+                    alt=""
+                    fill
+                    sizes="(min-width: 768px) 768px, 100vw"
+                    className="object-cover transition-transform duration-[900ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.04]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-midnight-950/25 to-transparent" />
+                </div>
+                <div className="px-8 py-9 sm:px-10 sm:py-11">
                 <div className="flex items-center justify-between gap-6">
                   <Eyebrow className="text-[0.5625rem]">{a.dateLabel}</Eyebrow>
                   <span className="text-ink-400 transition-all duration-300 group-hover:translate-x-1 group-hover:text-brass-500">
@@ -63,6 +75,7 @@ export default function ArticlesPage() {
                 <p className="mt-6 border-t border-ink-900/8 pt-5 text-[0.8125rem] leading-[1.7] text-ink-500">
                   {a.authors.join(" · ")}
                 </p>
+                </div>
               </a>
             </Reveal>
           ))}
@@ -86,15 +99,26 @@ export default function ArticlesPage() {
                 href={a.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group grid gap-2 py-8 sm:grid-cols-[7.5rem_1fr] sm:gap-8"
+                className="group grid gap-4 py-8 sm:grid-cols-[10rem_1fr] sm:gap-8"
               >
-                <time
-                  dateTime={a.date}
-                  className="eyebrow pt-1 text-[0.5625rem] text-ink-400 transition-colors duration-300 group-hover:text-brass-500"
-                >
-                  {a.dateLabel}
-                </time>
                 <div>
+                  <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl bg-midnight-900/5 sm:aspect-[4/3]">
+                    <Image
+                      src={`/img/arthra/${a.slug}.jpg`}
+                      alt=""
+                      fill
+                      sizes="(min-width: 640px) 160px, 100vw"
+                      className="object-cover grayscale-[35%] transition-all duration-[900ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.05] group-hover:grayscale-0"
+                    />
+                  </div>
+                  <time
+                    dateTime={a.date}
+                    className="eyebrow mt-3 block text-[0.5625rem] text-ink-400 transition-colors duration-300 group-hover:text-brass-500"
+                  >
+                    {a.dateLabel}
+                  </time>
+                </div>
+                <div className="min-w-0">
                   <h3 className="flex items-start gap-2 font-display text-[1.25rem] leading-snug text-midnight-900 transition-colors duration-300 group-hover:text-navy-600 sm:text-[1.4rem]">
                     <span>{a.title}</span>
                     <ArrowOut className="mt-2 h-3.5 w-3.5 shrink-0 text-ink-400 transition-all duration-300 group-hover:translate-x-1 group-hover:text-brass-500" />

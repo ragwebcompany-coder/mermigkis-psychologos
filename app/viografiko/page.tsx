@@ -112,7 +112,7 @@ export default function BioPage() {
               <div>
                 <p className="eyebrow text-ink-400">Μέλος</p>
                 <p className="mt-3 text-[0.875rem] leading-[1.8] text-ink-700">
-                  Σύλλογος Ελλήνων Ψυχολόγων (ΣΕΨ)
+                  British Psychological Society (BPS)
                 </p>
               </div>
               <div>

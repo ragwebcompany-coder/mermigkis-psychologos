@@ -36,7 +36,11 @@ export const articles: Article[] = [
     href: "https://www.dunant.gr/el/news/medical-articles/pulmonology/quality-sleep-summer/",
     date: "2025-07-30",
     dateLabel: "30 Ιουλίου 2025",
-    authors: ["Χαράλαμπος Μερμίγκης"],
+    authors: [
+      "Χαράλαμπος Μερμίγκης",
+      "Μιχαήλ Μερμίγκης, Ψυχολόγος",
+    ],
+    own: true,
     summary:
       "Πρακτικές συστάσεις για τον ύπνο τους θερινούς μήνες: θερμοκρασία δωματίου, αλκοόλ, καφεΐνη και ωράριο.",
   },

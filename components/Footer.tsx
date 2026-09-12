@@ -89,7 +89,7 @@ export default function Footer() {
         <div className="mt-16 border-t border-moon-200/10 pt-8">
           <p className="text-xs leading-relaxed text-moon-200/35">
             Άδεια ασκήσεως επαγγέλματος ψυχολόγου: {site.license} · Μέλος
-            Συλλόγου Ελλήνων Ψυχολόγων (ΣΕΨ)
+            της British Psychological Society (BPS)
           </p>
           <div className="mt-5 flex flex-col gap-2 text-xs text-moon-200/35 sm:flex-row sm:items-center sm:justify-between">
             <p>
