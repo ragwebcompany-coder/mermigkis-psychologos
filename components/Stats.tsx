@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import type { Lang } from "@/lib/i18n";
 
 type Stat = {
   from?: number;
@@ -9,12 +10,20 @@ type Stat = {
   label: string;
 };
 
-const stats: Stat[] = [
-  { from: 30, to: 40, suffix: "%", label: "των ενηλίκων εμφανίζουν συμπτώματα αϋπνίας" },
-  { from: 8, to: 10, suffix: "%", label: "πληρούν τα κριτήρια της χρόνιας αϋπνίας" },
-  { from: 4, to: 8, suffix: " εβδ.", label: "διαρκεί ένα πλήρες πρωτόκολλο CBT-I" },
-  { to: 1, suffix: "η", label: "γραμμή θεραπείας στις διεθνείς κατευθυντήριες οδηγίες" },
-];
+const statsByLang: Record<Lang, Stat[]> = {
+  el: [
+    { from: 30, to: 40, suffix: "%", label: "των ενηλίκων εμφανίζουν συμπτώματα αϋπνίας" },
+    { from: 8, to: 10, suffix: "%", label: "πληρούν τα κριτήρια της χρόνιας αϋπνίας" },
+    { from: 4, to: 8, suffix: " εβδ.", label: "διαρκεί ένα πλήρες πρωτόκολλο CBT-I" },
+    { to: 1, suffix: "η", label: "γραμμή θεραπείας στις διεθνείς κατευθυντήριες οδηγίες" },
+  ],
+  en: [
+    { from: 30, to: 40, suffix: "%", label: "of adults experience symptoms of insomnia" },
+    { from: 8, to: 10, suffix: "%", label: "meet the criteria for chronic insomnia" },
+    { from: 4, to: 8, suffix: " wks", label: "is how long a full CBT-I protocol runs" },
+    { to: 1, suffix: "st", label: "line of treatment in international clinical guidelines" },
+  ],
+};
 
 /** Counts up once, when the band first enters the viewport. */
 function useCountUp(target: number, run: boolean, duration = 1100) {
@@ -72,7 +81,8 @@ function StatCell({
   );
 }
 
-export default function StatsBand() {
+export default function StatsBand({ lang }: { lang: Lang }) {
+  const stats = statsByLang[lang];
   const ref = useRef<HTMLDivElement | null>(null);
   const [run, setRun] = useState(false);
 

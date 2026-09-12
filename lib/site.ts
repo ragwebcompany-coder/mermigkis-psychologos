@@ -24,7 +24,31 @@ export type NavItem = {
   children?: { href: string; label: string }[];
 };
 
-export const nav: NavItem[] = [
+/** Ό,τι από την ταυτότητα του γραφείου αλλάζει ανά γλώσσα. */
+export const siteText = {
+  el: {
+    name: "Μερμίγκης Μιχαήλ",
+    role: "Ψυχολόγος",
+    tagline: "Αϋπνία & Διαταραχές Ύπνου",
+    street: "Παναγή Τσαλδάρη 21",
+    area: "Μελίσσια",
+    region: "Αττική",
+    license:
+      "Αρ. Πρωτ. 240550 / 22.02.2024 — Δ/νση Δημόσιας Υγείας, Β. Τομέας Αθηνών",
+  },
+  en: {
+    name: "Michail Mermigkis",
+    role: "Psychologist",
+    tagline: "Insomnia & Sleep Disorders",
+    street: "21 Panagi Tsaldari St.",
+    area: "Melissia, Athens",
+    region: "Attica",
+    license:
+      "Licence no. 240550 / 22.02.2024 — Directorate of Public Health, North Athens",
+  },
+} as const;
+
+const navEl: NavItem[] = [
   { href: "/", label: "Αρχική" },
   { href: "/viografiko", label: "Ο ψυχολόγος" },
   { href: "/aypnia-cbt-i", label: "Αϋπνία & CBT-I" },
@@ -35,3 +59,18 @@ export const nav: NavItem[] = [
   { href: "/syhnes-erotiseis", label: "Ερωτήσεις" },
   { href: "/epikoinonia", label: "Επικοινωνία" },
 ];
+
+const navEn: NavItem[] = [
+  { href: "/", label: "Home" },
+  { href: "/viografiko", label: "The psychologist" },
+  { href: "/aypnia-cbt-i", label: "Insomnia & CBT-I" },
+  { href: "/diataraches-ypnou", label: "Sleep disorders" },
+  { href: "/test-aypnias", label: "Insomnia test" },
+  { href: "/to-grafeio", label: "The practice" },
+  { href: "/arthrografia", label: "Articles" },
+  { href: "/syhnes-erotiseis", label: "Questions" },
+  { href: "/epikoinonia", label: "Contact" },
+];
+
+export const getNav = (lang: "el" | "en"): NavItem[] =>
+  lang === "en" ? navEn : navEl;

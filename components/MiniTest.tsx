@@ -2,12 +2,28 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { aisItems } from "@/lib/ais";
+import { getAisItems } from "@/lib/ais";
+import { localePath, type Lang } from "@/lib/i18n";
+
+const ui = {
+  el: {
+    partial: "Μερική βαθμολογία",
+    note: "Αυτές είναι δύο από τις οκτώ ερωτήσεις. Η κλίμακα βγάζει νόημα μόνο ολόκληρη — το όριο των 6/24 αφορά το πλήρες τεστ.",
+    cta: "Συνεχίστε στις 8 ερωτήσεις",
+    prompt: "Απαντήστε και στις δύο για να δείτε πώς λειτουργεί.",
+  },
+  en: {
+    partial: "Partial score",
+    note: "These are two of the eight questions. The scale only makes sense as a whole — the 6/24 cut-off applies to the full test.",
+    cta: "Continue to all 8 questions",
+    prompt: "Answer both to see how it works.",
+  },
+} as const;
 
 /** Two questions from the Athens Insomnia Scale, as a taste of the full test. */
-const preview = aisItems.slice(0, 2);
-
-export default function MiniTest() {
+export default function MiniTest({ lang }: { lang: Lang }) {
+  const t = ui[lang];
+  const preview = getAisItems(lang).slice(0, 2);
   const [answers, setAnswers] = useState<(number | null)[]>([null, null]);
   const done = answers.every((a) => a !== null);
   const partial = answers.reduce<number>((s, a) => s + (a ?? 0), 0);
@@ -65,27 +81,26 @@ export default function MiniTest() {
         style={{ transitionTimingFunction: "var(--ease-out-soft)" }}
       >
         <div className="rounded-[22px] border border-brass-500/30 bg-cream-50 px-7 py-8 text-center">
-          <p className="eyebrow text-brass-500">Μερική βαθμολογία</p>
+          <p className="eyebrow text-brass-500">{t.partial}</p>
           <p className="mt-4 font-display text-[2.4rem] leading-none tabular-nums text-midnight-900">
             {partial}
             <span className="text-[1.2rem] text-ink-400">/6</span>
           </p>
           <p className="mx-auto mt-5 max-w-md text-[0.9375rem] leading-[1.8] text-ink-500 text-pretty">
-            Αυτές είναι δύο από τις οκτώ ερωτήσεις. Η κλίμακα βγάζει νόημα μόνο
-            ολόκληρη — το όριο των 6/24 αφορά το πλήρες τεστ.
+            {t.note}
           </p>
           <Link
-            href="/test-aypnias"
+            href={localePath(lang, "/test-aypnias")}
             className="eyebrow sheen mt-7 inline-flex items-center justify-center rounded-full bg-brass-500 px-8 py-4 text-[0.625rem] text-midnight-950 transition-colors duration-300 hover:bg-brass-400"
           >
-            Συνεχίστε στις 8 ερωτήσεις
+            {t.cta}
           </Link>
         </div>
       </div>
 
       {!done && (
         <p className="mt-10 text-center text-[0.8125rem] text-ink-400">
-          Απαντήστε και στις δύο για να δείτε πώς λειτουργεί.
+          {t.prompt}
         </p>
       )}
     </div>

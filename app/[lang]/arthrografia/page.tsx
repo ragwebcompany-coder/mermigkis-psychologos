@@ -1,17 +1,76 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 import Reveal from "@/components/Reveal";
 import { ButtonLink, Eyebrow, Ornament, PageHero, Section, SectionHead } from "@/components/ui";
-import { articles } from "@/lib/articles";
+import { articles, type Article } from "@/lib/articles";
+import { alternates, isLang, localePath, type Lang } from "@/lib/i18n";
 
-export const metadata: Metadata = {
-  title: "Αρθρογραφία",
-  description:
-    "Άρθρα του Εργαστηρίου Ύπνου του Ερρίκος Ντυνάν Hospital Center για την αϋπνία, την υπνική άπνοια και τη μελέτη ύπνου.",
-};
+const copy = {
+  el: {
+    metaTitle: "Αρθρογραφία",
+    metaDescription:
+      "Άρθρα του Εργαστηρίου Ύπνου του Ερρίκος Ντυνάν Hospital Center για την αϋπνία, την υπνική άπνοια και τη μελέτη ύπνου.",
+    heroEyebrow: "Αρθρογραφία",
+    heroTitle: "Δημοσιεύσεις για τον ύπνο",
+    heroIntro:
+      "Άρθρα του Εργαστηρίου Ύπνου (ΕΚεΔΥ) του Ερρίκος Ντυνάν Hospital Center. Δημοσιεύονται στο dunant.gr και ανοίγουν εκεί.",
+    ownEyebrow: "Με τη δική του υπογραφή",
+    ownTitle: "Άρθρα που συνυπογράφει",
+    ownIntro:
+      "Δημοσιεύσεις στις οποίες συμμετέχει ως συγγραφέας, με την ιδιότητα του ψυχολόγου του Εργαστηρίου Ύπνου.",
+    archiveEyebrow: "Από το Εργαστήριο Ύπνου",
+    archiveTitle: "Το αρχείο δημοσιεύσεων",
+    archiveIntro:
+      "Άρθρα του Δρ. Χαράλαμπου Μερμίγκη, Διευθυντή του Εργαστηρίου Ύπνου, και των συνεργατών του — χρήσιμο υπόβαθρο για όποιον θέλει να καταλάβει τι εξετάζεται και πώς.",
+    outro:
+      "Τα άρθρα φιλοξενούνται στον ιστότοπο του Ερρίκος Ντυνάν Hospital Center. Δεν υποκαθιστούν την εξατομικευμένη αξιολόγηση: αν κάτι από όσα διαβάσετε σας αφορά, το επόμενο βήμα είναι ένα ραντεβού.",
+    cta: "Επικοινωνία",
+    note: "Τα άρθρα είναι γραμμένα στα ελληνικά.",
+  },
+  en: {
+    metaTitle: "Articles",
+    metaDescription:
+      "Articles from the Sleep Laboratory of Errikos Dynan Hospital Center on insomnia, sleep apnoea and the sleep study.",
+    heroEyebrow: "Articles",
+    heroTitle: "Publications on sleep",
+    heroIntro:
+      "Articles from the Sleep Laboratory (EKeDY) of Errikos Dynan Hospital Center. They are published on dunant.gr and open there.",
+    ownEyebrow: "With his own signature",
+    ownTitle: "Articles he co-authors",
+    ownIntro:
+      "Publications he contributes to as an author, in his capacity as psychologist of the Sleep Laboratory.",
+    archiveEyebrow: "From the Sleep Laboratory",
+    archiveTitle: "The publication archive",
+    archiveIntro:
+      "Articles by Dr Charalampos Mermigkis, Director of the Sleep Laboratory, and his colleagues — useful background for anyone who wants to understand what is examined, and how.",
+    outro:
+      "The articles are hosted on the website of Errikos Dynan Hospital Center. They do not replace an individual assessment: if something you read applies to you, the next step is an appointment.",
+    cta: "Contact",
+    note: "The articles themselves are written in Greek.",
+  },
+} as const;
 
-const featured = articles.filter((a) => a.own);
-const rest = articles.filter((a) => !a.own);
+/** Οι τίτλοι και οι περιλήψεις μεταφράζονται· τα ίδια τα άρθρα μένουν στα ελληνικά. */
+function localise(a: Article, lang: Lang) {
+  return lang === "en"
+    ? { ...a, title: a.en.title, summary: a.en.summary, dateLabel: a.en.dateLabel, authors: a.en.authors }
+    : a;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+  const t = copy[isLang(lang) ? lang : "el"];
+  return {
+    title: t.metaTitle,
+    description: t.metaDescription,
+    alternates: alternates(isLang(lang) ? lang : "el", "/arthrografia"),
+  };
+}
 
 function ArrowOut({ className = "h-3 w-3" }: { className?: string }) {
   return (
@@ -21,22 +80,33 @@ function ArrowOut({ className = "h-3 w-3" }: { className?: string }) {
   );
 }
 
-export default function ArticlesPage() {
+export default async function ArticlesPage({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
+  const { lang } = await params;
+  if (!isLang(lang)) notFound();
+  const t = copy[lang];
+  const localised = articles.map((a) => localise(a, lang));
+  const featured = localised.filter((a) => a.own);
+  const rest = localised.filter((a) => !a.own);
+
   return (
     <>
       <PageHero
-        eyebrow="Αρθρογραφία"
-        title="Δημοσιεύσεις για τον ύπνο"
-        intro="Άρθρα του Εργαστηρίου Ύπνου (ΕΚεΔΥ) του Ερρίκος Ντυνάν Hospital Center. Δημοσιεύονται στο dunant.gr και ανοίγουν εκεί."
+        eyebrow={t.heroEyebrow}
+        title={t.heroTitle}
+        intro={t.heroIntro}
       />
 
       {/* ── Δικές του δημοσιεύσεις ───────────────────────────── */}
       <Section className="bg-cream-50">
         <Reveal>
           <SectionHead
-            eyebrow="Με τη δική του υπογραφή"
-            title="Άρθρα που συνυπογράφει"
-            intro="Δημοσιεύσεις στις οποίες συμμετέχει ως συγγραφέας, με την ιδιότητα του ψυχολόγου του Εργαστηρίου Ύπνου."
+            eyebrow={t.ownEyebrow}
+            title={t.ownTitle}
+            intro={t.ownIntro}
           />
         </Reveal>
 
@@ -86,9 +156,9 @@ export default function ArticlesPage() {
       <Section className="bg-cream-100">
         <Reveal>
           <SectionHead
-            eyebrow="Από το Εργαστήριο Ύπνου"
-            title="Το αρχείο δημοσιεύσεων"
-            intro="Άρθρα του Δρ. Χαράλαμπου Μερμίγκη, Διευθυντή του Εργαστηρίου Ύπνου, και των συνεργατών του — χρήσιμο υπόβαθρο για όποιον θέλει να καταλάβει τι εξετάζεται και πώς."
+            eyebrow={t.archiveEyebrow}
+            title={t.archiveTitle}
+            intro={t.archiveIntro}
           />
         </Reveal>
 
@@ -139,13 +209,14 @@ export default function ArticlesPage() {
           <div className="mx-auto mt-16 max-w-2xl text-center">
             <Ornament />
             <p className="mt-10 text-[0.9375rem] leading-[1.8] text-ink-500 text-pretty">
-              Τα άρθρα φιλοξενούνται στον ιστότοπο του Ερρίκος Ντυνάν Hospital
-              Center. Δεν υποκαθιστούν την εξατομικευμένη αξιολόγηση: αν κάτι
-              από όσα διαβάσετε σας αφορά, το επόμενο βήμα είναι ένα ραντεβού.
+              {t.outro}
+              {lang === "en" && (
+                <span className="mt-3 block text-ink-400">{t.note}</span>
+              )}
             </p>
             <div className="mt-9">
-              <ButtonLink href="/epikoinonia" variant="outline">
-                Επικοινωνία
+              <ButtonLink href={localePath(lang, "/epikoinonia")} variant="outline">
+                {t.cta}
               </ButtonLink>
             </div>
           </div>

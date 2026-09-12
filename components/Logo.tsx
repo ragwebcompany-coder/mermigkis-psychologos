@@ -1,4 +1,11 @@
+import type { Lang } from "@/lib/i18n";
+
 type Tone = "light" | "dark";
+
+const wordmark = {
+  el: { name: "ΜΕΡΜΙΓΚΗΣ ΜΙΧΑΗΛ", role: "Ψυχολόγος" },
+  en: { name: "MICHAIL MERMIGKIS", role: "Psychologist" },
+} as const;
 
 const palette = (tone: Tone) => ({
   moon: tone === "light" ? "#cfe0f4" : "#1b4079",
@@ -32,14 +39,17 @@ export function LogoMark({
 
 /** Horizontal lockup — the header mark, also used large at the top of the hero. */
 export function Logo({
+  lang = "el",
   tone = "dark",
   size = "sm",
   className = "",
 }: {
+  lang?: Lang;
   tone?: Tone;
   size?: "sm" | "lg";
   className?: string;
 }) {
+  const word = wordmark[lang];
   const name = tone === "light" ? "text-cream-50" : "text-midnight-900";
   const sub = tone === "light" ? "text-moon-400/70" : "text-ink-500";
   const lg = size === "lg";
@@ -60,7 +70,7 @@ export function Logo({
             lg ? "text-[1.5rem] sm:text-[2rem]" : "text-[1rem]"
           }`}
         >
-          ΜΕΡΜΙΓΚΗΣ ΜΙΧΑΗΛ
+          {word.name}
         </span>
         <span
           className={`eyebrow ${sub} ${
@@ -69,7 +79,7 @@ export function Logo({
               : "mt-[6px] text-[0.5rem]"
           }`}
         >
-          Ψυχολόγος
+          {word.role}
         </span>
       </span>
     </span>

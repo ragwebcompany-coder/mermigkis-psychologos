@@ -1,13 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { method } from "@/lib/content";
+import { getMethod } from "@/lib/content";
+import type { Lang } from "@/lib/i18n";
+
+const ui = { el: "Συστατικό", en: "Component" } as const;
 
 /**
  * The five CBT-I components as a stepper: the numerals stay visible, the
  * body text swaps in place, and a brass marker slides to the active step.
  */
-export default function MethodStepper() {
+export default function MethodStepper({ lang }: { lang: Lang }) {
+  const method = getMethod(lang);
   const [active, setActive] = useState(0);
   const [marker, setMarker] = useState({ top: 0, height: 0 });
   const listRef = useRef<HTMLUListElement | null>(null);
@@ -82,7 +86,7 @@ export default function MethodStepper() {
       <div className="min-w-0 min-h-[190px] border-t border-ink-900/10 pt-8 lg:border-l lg:border-t-0 lg:pl-16 lg:pt-0">
         <p key={current.n} className="animate-[rise_0.5s_var(--ease-out-soft)_forwards]">
           <span className="eyebrow block text-brass-500">
-            Συστατικό {current.n}
+            {ui[lang]} {current.n}
           </span>
           <span className="mt-6 block font-display text-[1.7rem] leading-snug text-midnight-900 sm:text-[2rem]">
             {current.title}

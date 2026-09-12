@@ -4,11 +4,38 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Logo } from "./Logo";
-import { disorders } from "@/lib/disorders";
-import { nav, site } from "@/lib/site";
+import { getDisorders } from "@/lib/disorders";
+import { getNav, site } from "@/lib/site";
+import { barePath, localePath, switchPath, type Lang } from "@/lib/i18n";
 
-export default function Header() {
-  const pathname = usePathname();
+const ui = {
+  el: {
+    home: "Αρχική",
+    allDisorders: "Όλες οι διαταραχές →",
+    allShort: "Όλες →",
+    openMenu: "Άνοιγμα μενού",
+    closeMenu: "Κλείσιμο μενού",
+    call: "Καλέστε",
+    switchLabel: "Switch to English",
+  },
+  en: {
+    home: "Home",
+    allDisorders: "All sleep disorders →",
+    allShort: "All →",
+    openMenu: "Open menu",
+    closeMenu: "Close menu",
+    call: "Call",
+    switchLabel: "Στα ελληνικά",
+  },
+} as const;
+
+export default function Header({ lang }: { lang: Lang }) {
+  const t = ui[lang];
+  const nav = getNav(lang);
+  const disorders = getDisorders(lang);
+  const p = (href: string) => localePath(lang, href);
+  // Στον server το usePathname δίνει το path μετά το rewrite («/el/...»).
+  const pathname = localePath(lang, barePath(usePathname()));
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [submenu, setSubmenu] = useState(false);
@@ -54,22 +81,22 @@ export default function Header() {
           : "border-b border-ink-900/8 bg-cream-50/92 backdrop-blur-xl"
       }`}
     >
-      <div className="mx-auto flex h-[82px] max-w-[1320px] items-center justify-between gap-8 px-5 sm:px-8">
-        <Link href="/" aria-label="Αρχική" className="shrink-0">
-          <Logo tone={light ? "light" : "dark"} />
+      <div className="mx-auto flex h-[82px] max-w-[1400px] items-center justify-between gap-6 px-5 sm:px-8">
+        <Link href={p("/")} aria-label={t.home} className="shrink-0">
+          <Logo lang={lang} tone={light ? "light" : "dark"} />
         </Link>
 
-        <nav className="hidden items-center gap-6 min-[1400px]:flex">
+        <nav className="hidden items-center gap-5 min-[1460px]:flex">
           {nav.slice(1).map((item) => {
+            const href = p(item.href);
             const active =
-              pathname === item.href ||
-              (item.href === "/diataraches-ypnou" &&
-                pathname.startsWith("/diataraches-ypnou"));
+              pathname === href ||
+              (item.href === "/diataraches-ypnou" && pathname.startsWith(href));
 
             if (item.href === "/diataraches-ypnou") {
               return (
                 <div key={item.href} className="group relative">
-                  <Link href={item.href} className={`${link(active)} flex items-center gap-1.5`}>
+                  <Link href={href} className={`${link(active)} flex items-center gap-1.5`}>
                     {item.label}
                     <span className="text-[0.5rem] transition-transform duration-300 group-hover:rotate-180">
                       ▾
@@ -80,9 +107,9 @@ export default function Header() {
                       {disorders.map((d) => (
                         <Link
                           key={d.slug}
-                          href={`/diataraches-ypnou/${d.slug}`}
+                          href={p(`/diataraches-ypnou/${d.slug}`)}
                           className={`block px-6 py-2.5 text-[0.8125rem] transition-colors ${
-                            pathname === `/diataraches-ypnou/${d.slug}`
+                            pathname === p(`/diataraches-ypnou/${d.slug}`)
                               ? "text-brass-500"
                               : "text-ink-700 hover:bg-cream-100 hover:text-midnight-900"
                           }`}
@@ -91,10 +118,10 @@ export default function Header() {
                         </Link>
                       ))}
                       <Link
-                        href="/diataraches-ypnou"
+                        href={p("/diataraches-ypnou")}
                         className="mt-1 block border-t border-ink-900/8 px-6 pb-1 pt-3 text-[0.6875rem] uppercase tracking-[0.16em] text-navy-600 transition-colors hover:text-midnight-900"
                       >
-                        Όλες οι διαταραχές →
+                        {t.allDisorders}
                       </Link>
                     </div>
                   </div>
@@ -103,17 +130,31 @@ export default function Header() {
             }
 
             return (
-              <Link key={item.href} href={item.href} className={link(active)}>
+              <Link key={item.href} href={href} className={link(active)}>
                 {item.label}
               </Link>
             );
           })}
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
+          <Link
+            href={switchPath(pathname, lang === "el" ? "en" : "el")}
+            hrefLang={lang === "el" ? "en" : "el"}
+            aria-label={t.switchLabel}
+            title={t.switchLabel}
+            className={`flex h-10 items-center rounded-full px-3 text-[0.625rem] font-medium uppercase tracking-[0.14em] ring-1 transition-all duration-300 ${
+              light
+                ? "text-moon-200/75 ring-moon-200/25 hover:text-cream-50 hover:ring-moon-200/50"
+                : "text-ink-500 ring-ink-900/12 hover:text-midnight-900 hover:ring-ink-900/30"
+            }`}
+          >
+            {lang === "el" ? "EN" : "ΕΛ"}
+          </Link>
+
           <a
             href={site.phoneHref}
-            className={`group hidden items-center gap-2.5 whitespace-nowrap rounded-full px-5 py-2.5 text-[0.6875rem] transition-all duration-300 sm:flex ${
+            className={`group hidden items-center gap-2.5 whitespace-nowrap rounded-full px-4 py-2.5 text-[0.6875rem] transition-all duration-300 sm:flex ${
               light
                 ? "text-cream-50 ring-1 ring-moon-200/30 hover:bg-cream-50 hover:text-midnight-900"
                 : "bg-navy-600 text-cream-50 hover:bg-midnight-800"
@@ -128,9 +169,9 @@ export default function Header() {
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            aria-label={open ? "Κλείσιμο μενού" : "Άνοιγμα μενού"}
+            aria-label={open ? t.closeMenu : t.openMenu}
             aria-expanded={open}
-            className={`flex h-10 w-10 items-center justify-center rounded-full ring-1 transition-colors min-[1400px]:hidden ${
+            className={`flex h-10 w-10 items-center justify-center rounded-full ring-1 transition-colors min-[1460px]:hidden ${
               light ? "text-cream-50 ring-moon-200/25" : "text-midnight-900 ring-ink-900/15"
             }`}
           >
@@ -157,7 +198,7 @@ export default function Header() {
 
       {/* Mobile drawer */}
       <div
-        className={`nocturne fixed inset-0 top-[82px] z-40 overflow-y-auto transition-all duration-500 min-[1400px]:hidden ${
+        className={`nocturne fixed inset-0 top-[82px] z-40 overflow-y-auto transition-all duration-500 min-[1460px]:hidden ${
           open ? "pointer-events-auto opacity-100" : "pointer-events-none -translate-y-2 opacity-0"
         }`}
       >
@@ -188,17 +229,17 @@ export default function Header() {
                       {disorders.map((d) => (
                         <Link
                           key={d.slug}
-                          href={`/diataraches-ypnou/${d.slug}`}
+                          href={p(`/diataraches-ypnou/${d.slug}`)}
                           className="block py-2.5 text-[0.9375rem] text-moon-200/65"
                         >
                           {d.nav}
                         </Link>
                       ))}
                       <Link
-                        href="/diataraches-ypnou"
+                        href={p("/diataraches-ypnou")}
                         className="block py-2.5 text-[0.8125rem] uppercase tracking-[0.16em] text-brass-400"
                       >
-                        Όλες →
+                        {t.allShort}
                       </Link>
                     </div>
                   </div>
@@ -207,19 +248,27 @@ export default function Header() {
             ) : (
               <Link
                 key={item.href}
-                href={item.href}
+                href={p(item.href)}
                 className="border-b border-moon-200/10 py-4 font-display text-[1.5rem] text-cream-50/90 transition-colors hover:text-brass-400"
               >
                 {item.label}
               </Link>
             ),
           )}
+          <Link
+            href={switchPath(pathname, lang === "el" ? "en" : "el")}
+            hrefLang={lang === "el" ? "en" : "el"}
+            className="mt-6 flex items-center justify-center gap-3 rounded-full px-6 py-3.5 text-[0.6875rem] font-medium uppercase tracking-[0.16em] text-moon-200/75 ring-1 ring-moon-200/25 transition-colors hover:text-cream-50"
+          >
+            {t.switchLabel}
+          </Link>
+
           <a
             href={site.phoneHref}
-            className="mt-8 flex items-center justify-center gap-3 rounded-full bg-brass-500 px-6 py-4 text-sm font-medium text-midnight-950"
+            className="mt-3 flex items-center justify-center gap-3 rounded-full bg-brass-500 px-6 py-4 text-sm font-medium text-midnight-950"
           >
             <PhoneIcon className="h-4 w-4" />
-            Καλέστε {site.phoneDisplay}
+            {t.call} {site.phoneDisplay}
           </a>
         </nav>
       </div>

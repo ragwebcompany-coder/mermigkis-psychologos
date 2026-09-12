@@ -8,6 +8,13 @@ export type Article = {
   /** true when Μιχαήλ Μερμίγκης is one of the named authors */
   own?: boolean;
   summary: string;
+  /** Η αγγλική εκδοχή των πεδίων που τυπώνονται. */
+  en: {
+    title: string;
+    dateLabel: string;
+    authors: string[];
+    summary: string;
+  };
 };
 
 /**
@@ -29,6 +36,16 @@ export const articles: Article[] = [
     own: true,
     summary:
       "Οι μορφές της αϋπνίας, τα συμπτώματα και οι θεραπευτικές επιλογές — με τη γνωσιακή συμπεριφορική ψυχοθεραπεία ως πρώτη γραμμή.",
+    en: {
+      title: "Insomnia, the insidious enemy of our sleep",
+      dateLabel: "6 March 2026",
+      authors: [
+        "Charalampos Mermigkis, MD, PhD",
+        "Michail Mermigkis, Psychologist",
+      ],
+      summary:
+        "The forms insomnia takes, its symptoms and the treatment options — with cognitive behavioural therapy as the first line.",
+    },
   },
   {
     slug: "quality-sleep-summer",
@@ -43,6 +60,16 @@ export const articles: Article[] = [
     own: true,
     summary:
       "Πρακτικές συστάσεις για τον ύπνο τους θερινούς μήνες: θερμοκρασία δωματίου, αλκοόλ, καφεΐνη και ωράριο.",
+    en: {
+      title: "8 tips for quality sleep in summer",
+      dateLabel: "30 July 2025",
+      authors: [
+        "Charalampos Mermigkis",
+        "Michail Mermigkis, Psychologist",
+      ],
+      summary:
+        "Practical recommendations for sleep in the summer months: room temperature, alcohol, caffeine and timing.",
+    },
   },
   {
     slug: "technical-intelligence-sleep",
@@ -53,6 +80,15 @@ export const articles: Article[] = [
     authors: ["Χαράλαμπος Μερμίγκης"],
     summary:
       "Πότε οι συσκευές καταγραφής ύπνου βοηθούν πραγματικά τη διάγνωση και πότε τροφοδοτούν το άγχος για τον ύπνο.",
+    en: {
+      title: "Artificial intelligence in Sleep Medicine: friend or foe",
+      dateLabel: "5 March 2025",
+      authors: [
+        "Charalampos Mermigkis",
+      ],
+      summary:
+        "When sleep-tracking devices genuinely help diagnosis, and when they simply feed anxiety about sleep.",
+    },
   },
   {
     slug: "diataraxes-ipnou",
@@ -63,6 +99,15 @@ export const articles: Article[] = [
     authors: ["Χαράλαμπος Μερμίγκης, MD, PhD"],
     summary:
       "Καθυστερημένη φάση ύπνου, αγχώδεις σκέψεις πριν τον ύπνο, καθημερινές συνήθειες και η διαδικασία της μελέτης ύπνου.",
+    en: {
+      title: "Answers to common patient questions about sleep disorders",
+      dateLabel: "6 March 2024",
+      authors: [
+        "Charalampos Mermigkis, MD, PhD",
+      ],
+      summary:
+        "Delayed sleep phase, anxious thoughts before bed, everyday habits, and how a sleep study works.",
+    },
   },
   {
     slug: "sleep-study",
@@ -73,6 +118,15 @@ export const articles: Article[] = [
     authors: ["Χαράλαμπος Μερμίγκης"],
     summary:
       "Τι είναι η Ιατρική του Ύπνου ως ειδικότητα και γιατί έχει σημασία το πιστοποιημένο κέντρο και ο ειδικός ιατρός.",
+    en: {
+      title: "Sleep Medicine through simple questions",
+      dateLabel: "9 March 2023",
+      authors: [
+        "Charalampos Mermigkis",
+      ],
+      summary:
+        "What Sleep Medicine is as a specialty, and why an accredited centre and a specialist physician matter.",
+    },
   },
   {
     slug: "meleti-ipnou-diataraxes",
@@ -83,6 +137,15 @@ export const articles: Article[] = [
     authors: ["Χαράλαμπος Μερμίγκης"],
     summary:
       "Γιατί η πολυυπνογραφία παραμένει η βασική διαγνωστική εξέταση και πώς διεξάγεται σε εργαστήριο ύπνου.",
+    en: {
+      title: "The sleep study: the cornerstone of diagnosis",
+      dateLabel: "17 March 2022",
+      authors: [
+        "Charalampos Mermigkis",
+      ],
+      summary:
+        "Why polysomnography remains the core diagnostic test, and how it is carried out in a sleep laboratory.",
+    },
   },
   {
     slug: "epiptoseis-karantinas-ipnos",
@@ -93,6 +156,15 @@ export const articles: Article[] = [
     authors: ["Χαράλαμπος Μερμίγκης"],
     summary:
       "Πώς ο εγκλεισμός μετακίνησε τα ωράρια, επιδείνωσε την αϋπνία και πλήθυναν τα δυσάρεστα όνειρα.",
+    en: {
+      title: "Measuring the effects of lockdown on our sleep",
+      dateLabel: "11 March 2021",
+      authors: [
+        "Charalampos Mermigkis",
+      ],
+      summary:
+        "How confinement shifted our schedules, worsened insomnia, and multiplied unpleasant dreams.",
+    },
   },
   {
     slug: "ypnos-covid19",
@@ -104,6 +176,16 @@ export const articles: Article[] = [
     authors: ["Χαράλαμπος Μερμίγκης", "Μαίρη Νταφούλη, Κλινική Ψυχολόγος"],
     summary:
       "Οι συστάσεις της Ευρωπαϊκής Ακαδημίας CBT-I για ενήλικες, παιδιά, επαγγελματίες υγείας και ασθενείς σε φαρμακοθεραπεία.",
+    en: {
+      title: "European guidance on sleep problems during home confinement",
+      dateLabel: "17 June 2020",
+      authors: [
+        "Charalampos Mermigkis",
+        "Mary Dafouli, Clinical Psychologist",
+      ],
+      summary:
+        "The European CBT-I Academy's recommendations for adults, children, health professionals and patients on medication.",
+    },
   },
   {
     slug: "covid-diatarahes-ypnou",
@@ -114,6 +196,15 @@ export const articles: Article[] = [
     authors: ["Χαράλαμπος Μερμίγκης"],
     summary:
       "Κλινικές οδηγίες για την υπνική άπνοια και τη χρήση αναπνευστικών συσκευών στη διάρκεια της πανδημίας.",
+    en: {
+      title: "COVID-19: guidance for patients with sleep-related disorders",
+      dateLabel: "3 April 2020",
+      authors: [
+        "Charalampos Mermigkis",
+      ],
+      summary:
+        "Clinical guidance on sleep apnoea and the use of respiratory devices during the pandemic.",
+    },
   },
   {
     slug: "ypnos",
@@ -124,6 +215,15 @@ export const articles: Article[] = [
     authors: ["Χαράλαμπος Μερμίγκης"],
     summary:
       "Οι κύριες διαταραχές ύπνου του σύγχρονου ανθρώπου — άπνοια, αϋπνία, παραϋπνίες — και το κόστος τους στην υγεία.",
+    en: {
+      title: "World Sleep Day: how did we end up losing our sleep?",
+      dateLabel: "5 March 2020",
+      authors: [
+        "Charalampos Mermigkis",
+      ],
+      summary:
+        "The main sleep disorders of modern life — apnoea, insomnia, parasomnias — and what they cost our health.",
+    },
   },
   {
     slug: "psychotherapia-stin-apnoia",
@@ -134,5 +234,15 @@ export const articles: Article[] = [
     authors: ["Χαράλαμπος Μερμίγκης", "Μαίρη Νταφούλη, Ψυχολόγος"],
     summary:
       "Πώς η γνωσιακή συμπεριφορική θεραπεία της αϋπνίας βελτιώνει την αποδοχή και τη συμμόρφωση στη θεραπεία με CPAP.",
+    en: {
+      title: "The role of psychotherapy in sleep apnoea",
+      dateLabel: "4 March 2020",
+      authors: [
+        "Charalampos Mermigkis",
+        "Mary Dafouli, Psychologist",
+      ],
+      summary:
+        "How cognitive behavioural therapy for insomnia improves acceptance of, and adherence to, CPAP treatment.",
+    },
   },
 ];

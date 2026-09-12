@@ -4,43 +4,77 @@ import { notFound } from "next/navigation";
 import Reveal from "@/components/Reveal";
 import { PhoneIcon } from "@/components/Header";
 import { ButtonLink, Eyebrow, Ornament, PageHero, Section } from "@/components/ui";
-import { disorderBySlug, disorders } from "@/lib/disorders";
+import { disorderBySlug, disorderSlugs, getDisorders } from "@/lib/disorders";
 import { site } from "@/lib/site";
+import { alternates, isLang, langs, localePath } from "@/lib/i18n";
+
+const copy = {
+  el: {
+    eyebrow: "Διαταραχές ύπνου",
+    what: "Τι είναι",
+    signs: "Πώς εκδηλώνεται",
+    treatment: "Πώς αντιμετωπίζεται",
+    caution: "Προσοχή",
+    closing: "Ας δούμε αν αυτό είναι που σας συμβαίνει.",
+    testCta: "Τεστ αϋπνίας",
+    alsoSee: "Δείτε επίσης",
+    more: "Περισσότερα →",
+  },
+  en: {
+    eyebrow: "Sleep disorders",
+    what: "What it is",
+    signs: "How it shows up",
+    treatment: "How it is treated",
+    caution: "Important",
+    closing: "Let's find out whether this is what is happening to you.",
+    testCta: "Insomnia test",
+    alsoSee: "See also",
+    more: "Read more →",
+  },
+} as const;
 
 export function generateStaticParams() {
-  return disorders.map((d) => ({ slug: d.slug }));
+  return langs.flatMap((lang) => disorderSlugs.map((slug) => ({ lang, slug })));
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ lang: string; slug: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
-  const d = disorderBySlug(slug);
+  const { lang, slug } = await params;
+  const d = disorderBySlug(isLang(lang) ? lang : "el", slug);
   if (!d) return {};
-  return { title: d.title, description: d.short };
+  return {
+    title: d.title,
+    description: d.short,
+    alternates: alternates(isLang(lang) ? lang : "el", `/diataraches-ypnou/${slug}`),
+  };
 }
 
 export default async function DisorderPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ lang: string; slug: string }>;
 }) {
-  const { slug } = await params;
-  const d = disorderBySlug(slug);
+  const { lang, slug } = await params;
+  if (!isLang(lang)) notFound();
+  const t = copy[lang];
+  const d = disorderBySlug(lang, slug);
   if (!d) notFound();
 
-  const others = disorders.filter((x) => x.slug !== d.slug).slice(0, 3);
+  const others = getDisorders(lang)
+    .filter((x) => x.slug !== d.slug)
+    .slice(0, 3);
 
   return (
     <>
-      <PageHero eyebrow="Διαταραχές ύπνου" title={d.title} intro={d.lede} />
+      <PageHero eyebrow={t.eyebrow} title={d.title} intro={d.lede} />
 
       <Section className="bg-cream-50">
         <div className="mx-auto max-w-3xl">
           <Reveal>
-            <Eyebrow align="left">Τι είναι</Eyebrow>
+            <Eyebrow align="left">{t.what}</Eyebrow>
             <div className="mt-6 space-y-5 text-[1.0625rem] leading-[1.9] text-ink-700 text-pretty">
               {d.what.map((p) => (
                 <p key={p.slice(0, 40)}>{p}</p>
@@ -50,7 +84,7 @@ export default async function DisorderPage({
 
           <Reveal delay={100}>
             <div className="mt-16 rounded-2xl border border-ink-900/8 bg-cream-100 p-9 sm:p-11">
-              <Eyebrow align="left">Πώς εκδηλώνεται</Eyebrow>
+              <Eyebrow align="left">{t.signs}</Eyebrow>
               <ul className="mt-6 space-y-3.5">
                 {d.signs.map((s) => (
                   <li
@@ -67,15 +101,15 @@ export default async function DisorderPage({
 
           <Reveal delay={140}>
             <div className="mt-16">
-              <Eyebrow align="left">Πώς αντιμετωπίζεται</Eyebrow>
+              <Eyebrow align="left">{t.treatment}</Eyebrow>
               <ol className="mt-7 divide-y divide-ink-900/10">
-                {d.treatment.map((t, i) => (
-                  <li key={t.slice(0, 40)} className="grid gap-4 py-6 sm:grid-cols-[auto_1fr] sm:gap-10">
+                {d.treatment.map((step, i) => (
+                  <li key={step.slice(0, 40)} className="grid gap-4 py-6 sm:grid-cols-[auto_1fr] sm:gap-10">
                     <span className="font-display text-[1.1rem] tabular-nums text-brass-500 sm:w-8">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <p className="text-[1rem] leading-[1.85] text-ink-700 text-pretty">
-                      {t}
+                      {step}
                     </p>
                   </li>
                 ))}
@@ -86,7 +120,7 @@ export default async function DisorderPage({
           {d.caution && (
             <Reveal delay={180}>
               <div className="mt-14 rounded-2xl border border-brass-500/30 bg-brass-500/[0.07] p-8">
-                <Eyebrow align="left">Προσοχή</Eyebrow>
+                <Eyebrow align="left">{t.caution}</Eyebrow>
                 <p className="mt-4 text-[0.9375rem] leading-[1.85] text-ink-700 text-pretty">
                   {d.caution}
                 </p>
@@ -98,7 +132,7 @@ export default async function DisorderPage({
             <Ornament className="mt-20" />
             <div className="mt-12 text-center">
               <p className="font-display text-[1.65rem] leading-snug text-balance text-midnight-900">
-                Ας δούμε αν αυτό είναι που σας συμβαίνει.
+                {t.closing}
               </p>
               <div className="mt-8 flex flex-wrap justify-center gap-4">
                 <a
@@ -108,8 +142,8 @@ export default async function DisorderPage({
                   <PhoneIcon className="h-[13px] w-[13px]" />
                   {site.phoneDisplay}
                 </a>
-                <ButtonLink href="/test-aypnias" variant="outline">
-                  Τεστ αϋπνίας
+                <ButtonLink href={localePath(lang, "/test-aypnias")} variant="outline">
+                  {t.testCta}
                 </ButtonLink>
               </div>
             </div>
@@ -118,19 +152,19 @@ export default async function DisorderPage({
       </Section>
 
       <Section className="bg-cream-100 py-20 sm:py-24">
-        <p className="eyebrow text-center text-ink-400">Δείτε επίσης</p>
+        <p className="eyebrow text-center text-ink-400">{t.alsoSee}</p>
         <ul className="mx-auto mt-10 grid max-w-4xl gap-x-12 gap-y-8 sm:grid-cols-3">
           {others.map((o) => (
             <li key={o.slug}>
               <Link
-                href={`/diataraches-ypnou/${o.slug}`}
+                href={localePath(lang, `/diataraches-ypnou/${o.slug}`)}
                 className="group block border-t border-ink-900/12 pt-5 transition-colors hover:border-brass-500/60"
               >
                 <h3 className="font-display text-[1.15rem] leading-snug text-midnight-900">
                   {o.nav}
                 </h3>
                 <span className="eyebrow mt-3 inline-block text-[0.5625rem] text-navy-600 transition-colors group-hover:text-brass-500">
-                  Περισσότερα →
+                  {t.more}
                 </span>
               </Link>
             </li>

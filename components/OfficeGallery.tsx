@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import type { Lang } from "@/lib/i18n";
 
 export type Shot = { src: string; label: string; caption: string };
 
-export const officeShots: Shot[] = [
+const shotsEl: Shot[] = [
   {
     src: "/img/grafeio/grafeio-2.jpg",
     label: "Ο χώρος συνεδρίας",
@@ -32,8 +33,43 @@ export const officeShots: Shot[] = [
   },
 ];
 
+const shotsEn: Shot[] = [
+  {
+    src: "/img/grafeio/grafeio-2.jpg",
+    label: "The consulting room",
+    caption:
+      "This is where sessions take place — quiet, with natural light and none of the clinical chill.",
+  },
+  {
+    src: "/img/grafeio/anamoni.jpg",
+    label: "The waiting area",
+    caption:
+      "A small reception space. Appointments are scheduled so that they never overlap.",
+  },
+  {
+    src: "/img/grafeio/prosopsi.jpg",
+    label: "The building",
+    caption:
+      "The building at 21 Panagi Tsaldari St. Free parking on the surrounding streets.",
+  },
+  {
+    src: "/img/grafeio/tampela.jpg",
+    label: "The sign",
+    caption:
+      "The sign at the entrance — the moon with three zZ's, from which the practice's emblem came.",
+  },
+];
+
+export const officeShotsByLang: Record<Lang, Shot[]> = {
+  el: shotsEl,
+  en: shotsEn,
+};
+
+export const officeShots = shotsEl;
+
 /** Featured shot with a thumbnail strip; images cross-fade and drift slowly. */
-export default function OfficeGallery() {
+export default function OfficeGallery({ lang }: { lang: Lang }) {
+  const officeShots = officeShotsByLang[lang];
   const [active, setActive] = useState(0);
 
   return (

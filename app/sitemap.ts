@@ -1,21 +1,26 @@
 import type { MetadataRoute } from "next";
-import { disorders } from "@/lib/disorders";
-import { nav, site } from "@/lib/site";
+import { disorderSlugs } from "@/lib/disorders";
+import { getNav, site } from "@/lib/site";
+import { langs, localePath } from "@/lib/i18n";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const pages = nav.map((item) => ({
-    url: `${site.url}${item.href === "/" ? "" : item.href}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly" as const,
-    priority: item.href === "/" ? 1 : 0.8,
-  }));
+  const now = new Date();
 
-  const details = disorders.map((d) => ({
-    url: `${site.url}/diataraches-ypnou/${d.slug}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly" as const,
-    priority: 0.7,
-  }));
+  return langs.flatMap((lang) => {
+    const pages = getNav(lang).map((item) => ({
+      url: `${site.url}${localePath(lang, item.href).replace(/\/$/, "")}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: item.href === "/" ? 1 : 0.8,
+    }));
 
-  return [...pages, ...details];
+    const details = disorderSlugs.map((slug) => ({
+      url: `${site.url}${localePath(lang, `/diataraches-ypnou/${slug}`)}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    }));
+
+    return [...pages, ...details];
+  });
 }
