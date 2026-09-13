@@ -1,8 +1,17 @@
+/**
+ * Η διεύθυνση του σάιτ. Τροφοδοτεί sitemap, canonical, hreflang και OG tags.
+ * Όταν μπει το κανονικό domain, αρκεί να οριστεί το NEXT_PUBLIC_SITE_URL στο
+ * Vercel (Production + Preview) — δεν χρειάζεται αλλαγή στον κώδικα.
+ */
+const url = (
+  process.env.NEXT_PUBLIC_SITE_URL || "https://mermigkis-psychologos.vercel.app"
+).replace(/\/+$/, "");
+
 export const site = {
   name: "Μερμίγκης Μιχαήλ",
   role: "Ψυχολόγος",
   tagline: "Αϋπνία & Διαταραχές Ύπνου",
-  url: "https://mermigkis-psychologos.vercel.app",
+  url,
   phoneDisplay: "6955 433 380",
   phoneHref: "tel:+306955433380",
   address: {

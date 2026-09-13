@@ -71,6 +71,28 @@ Literata (display, με σχεδιασμένα ελληνικά) + Inter. Accent
 Τα ίδια τα άρθρα στο dunant.gr είναι γραμμένα στα ελληνικά — στην αγγλική
 έκδοση μεταφράζονται τίτλοι και περιλήψεις, με σχετική σημείωση στο τέλος.
 
+## Πού ζει και πώς ανεβαίνει
+
+- **GitHub** (private): `ragwebcompany-coder/mermigkis-psychologos`, branch `main`.
+- **Vercel**: team `ragwebcompany-4196's projects`, project `mermigkis-psychologos`.
+  Το repo είναι συνδεδεμένο, οπότε κάθε push στο `main` κάνει deploy μόνο του.
+  Χειροκίνητα: `vercel deploy --prod --yes`.
+- **Προσωρινή διεύθυνση**: `https://mermigkis-psychologos.vercel.app`
+
+### Όταν μπει το κανονικό domain
+
+1. Στο Vercel → project → Settings → Domains, πρόσθεσε το domain και το `www`
+   (ή `vercel domains add <domain> mermigkis-psychologos`).
+2. Στον registrar του domain:
+   - `A` record, host `@` → `76.76.21.21`
+   - `CNAME` record, host `www` → `cname.vercel-dns.com`
+   Εναλλακτικά, nameservers → `ns1.vercel-dns.com` και `ns2.vercel-dns.com`,
+   οπότε το Vercel στήνει μόνο του τα records.
+3. Στο Vercel → Settings → Environment Variables, βάλε σε **Production** και
+   **Preview**: `NEXT_PUBLIC_SITE_URL = https://<το domain>` (χωρίς κάθετο στο
+   τέλος). Τροφοδοτεί sitemap, canonical, hreflang και OG tags.
+4. Redeploy, ώστε να ξαναχτιστεί το sitemap με τη νέα διεύθυνση.
+
 ## Εκκρεμότητες περιεχομένου
 
 - **Φωτογραφίες χώρου.** Οι τέσσερις λήψεις στο `public/img/grafeio/` είναι
