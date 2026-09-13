@@ -3,6 +3,8 @@ import { disorderSlugs } from "@/lib/disorders";
 import { getNav, site } from "@/lib/site";
 import { langs, localePath } from "@/lib/i18n";
 
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 

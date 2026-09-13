@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "postbuild": "node scripts/flatten-default-locale.mjs",
+    "preview": "npx serve out",
     "lint": "eslint"
   },
   "dependencies": {

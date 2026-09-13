@@ -5,7 +5,7 @@
 
 ## Stack
 
-Next.js 16 (App Router, static export ανά σελίδα) · TypeScript · Tailwind CSS v4 · Vercel.
+Next.js 16 (App Router, static export ανά σελίδα) · TypeScript · Tailwind CSS v4 · GitHub Pages.
 
 ## Σελίδες
 
@@ -52,10 +52,12 @@ Literata (display, με σχεδιασμένα ελληνικά) + Inter. Accent
 
 ## Δύο γλώσσες
 
-Ελληνικά στο `/`, αγγλικά στο `/en`. Όλες οι σελίδες ζουν κάτω από `app/[lang]/`
-και το `proxy.ts` κάνει rewrite κάθε path χωρίς πρόθεμα στο `/el/...`, ώστε τα
-ελληνικά URL να μένουν καθαρά· το `/el/...` ανακατευθύνεται στο καθαρό path για
-να μην υπάρχει διπλό περιεχόμενο.
+Ελληνικά στο `/`, αγγλικά στο `/en`. Όλες οι σελίδες ζουν κάτω από `app/[lang]/`.
+Το GitHub Pages είναι στατικό hosting — δεν τρέχει server, άρα δεν μπορεί να
+υπάρχει runtime rewrite (proxy/middleware). Το `next build` (static export)
+βγάζει τα ελληνικά κάτω από `out/el/...`· το `scripts/flatten-default-locale.mjs`
+τρέχει σαν `postbuild` και τα μεταφέρει στη ρίζα, ώστε το αποτέλεσμα να είναι
+ίδιο με πριν (`/`, `/en/...`) χωρίς κανένα rewrite σε request-time.
 
 - Το κείμενο κάθε σελίδας ζει σε ένα `copy = { el, en }` μέσα στο ίδιο αρχείο.
 - Τα κοινά δεδομένα είναι σε ζεύγη: `lib/disorders.{el,en}.ts`,
@@ -74,24 +76,24 @@ Literata (display, με σχεδιασμένα ελληνικά) + Inter. Accent
 ## Πού ζει και πώς ανεβαίνει
 
 - **GitHub** (private): `ragwebcompany-coder/mermigkis-psychologos`, branch `main`.
-- **Vercel**: team `ragwebcompany-4196's projects`, project `mermigkis-psychologos`.
-  Το repo είναι συνδεδεμένο, οπότε κάθε push στο `main` κάνει deploy μόνο του.
-  Χειροκίνητα: `vercel deploy --prod --yes`.
-- **Προσωρινή διεύθυνση**: `https://mermigkis-psychologos.vercel.app`
+- **GitHub Pages**: source = GitHub Actions (`.github/workflows/deploy.yml`).
+  Κάθε push στο `main` τρέχει `npm ci && npm run build` (static export στο
+  `out/`) και δημοσιεύει με `actions/deploy-pages`. Χειροκίνητα: tab **Actions**
+  → «Deploy to GitHub Pages» → **Run workflow**.
+- **Custom domain**: `www.aipnia.gr`, μέσω `public/CNAME` (αντιγράφεται στο
+  `out/` σε κάθε build) — *όχι* από το πεδίο "Custom domain" στα repo Settings
+  → Pages, γιατί αυτό ξαναγράφεται μόνο του από το `public/CNAME` κάθε deploy.
+- **Τοπικό preview του export**: `npm run build && npm run preview`.
 
-### Όταν μπει το κανονικό domain
+### DNS (registrar: Papaki)
 
-1. Στο Vercel → project → Settings → Domains, πρόσθεσε το domain και το `www`
-   (ή `vercel domains add <domain> mermigkis-psychologos`).
-2. Στον registrar του domain:
-   - `A` record, host `@` → `76.76.21.21`
-   - `CNAME` record, host `www` → `cname.vercel-dns.com`
-   Εναλλακτικά, nameservers → `ns1.vercel-dns.com` και `ns2.vercel-dns.com`,
-   οπότε το Vercel στήνει μόνο του τα records.
-3. Στο Vercel → Settings → Environment Variables, βάλε σε **Production** και
-   **Preview**: `NEXT_PUBLIC_SITE_URL = https://<το domain>` (χωρίς κάθετο στο
-   τέλος). Τροφοδοτεί sitemap, canonical, hreflang και OG tags.
-4. Redeploy, ώστε να ξαναχτιστεί το sitemap με τη νέα διεύθυνση.
+Ήδη σωστά στημένο για GitHub Pages:
+- `A` records, host `@` → `185.199.108.153` / `.109.153` / `.110.153` / `.111.153`
+- `CNAME` record, host `www` → `ragwebcompany-coder.github.io.`
+
+Το `NEXT_PUBLIC_SITE_URL` δίνεται στο workflow (`deploy.yml`, `env:` του job
+`build`) — αν αλλάξει ποτέ το domain, αλλάζει εκεί (και στο `public/CNAME`),
+όχι σε dashboard κάποιου hosting provider.
 
 ## Εκκρεμότητες περιεχομένου
 
