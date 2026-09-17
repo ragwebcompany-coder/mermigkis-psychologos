@@ -32,6 +32,11 @@ export const site = {
       href: "https://www.instagram.com/michaelmermigkis/",
     },
     {
+      // Ο λογαριασμός δεν έχει όνομα χρήστη — μόνο αριθμητικό id.
+      name: "Facebook",
+      href: "https://www.facebook.com/profile.php?id=61594324710376",
+    },
+    {
       name: "TikTok",
       href: "https://www.tiktok.com/@michaelmermigkis",
     },
