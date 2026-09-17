@@ -1,3 +1,4 @@
+import type { ReactElement } from "react";
 import Link from "next/link";
 import { Logo } from "./Logo";
 import { PhoneIcon } from "./Header";
@@ -19,6 +20,8 @@ const ui = {
     licenseLine: (license: string) =>
       `Άδεια ασκήσεως επαγγέλματος ψυχολόγου: ${license} · Μέλος της British Psychological Society (BPS)`,
     rights: "Με επιφύλαξη παντός δικαιώματος.",
+    socialHead: "Ακολουθήστε",
+    credit: "Κατασκευή ιστοσελίδας από",
     disclaimer:
       "Το περιεχόμενο έχει ενημερωτικό χαρακτήρα και δεν υποκαθιστά την κλινική αξιολόγηση.",
   },
@@ -34,6 +37,8 @@ const ui = {
     licenseLine: (license: string) =>
       `Psychologist's practising licence: ${license} · Member of the British Psychological Society (BPS)`,
     rights: "All rights reserved.",
+    socialHead: "Follow",
+    credit: "Website made by",
     disclaimer:
       "This content is for information only and does not replace a clinical assessment.",
   },
@@ -126,8 +131,31 @@ export default function Footer({ lang }: { lang: Lang }) {
           </div>
         </div>
 
-        <div className="mt-16 border-t border-moon-200/10 pt-8">
-          <p className="text-xs leading-relaxed text-moon-200/35">
+        <div className="mt-16 border-t border-moon-200/10 pt-10">
+          <div className="flex flex-col items-center">
+            <h3 className="eyebrow text-moon-400/60">{t.socialHead}</h3>
+            <ul className="mt-5 flex items-center gap-3">
+              {site.socials.map((social) => {
+                const Icon = socialIcons[social.name];
+                return (
+                  <li key={social.name}>
+                    <a
+                      href={social.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={social.name}
+                      title={social.name}
+                      className="flex h-11 w-11 items-center justify-center rounded-full text-moon-200/60 ring-1 ring-moon-200/15 transition-colors hover:bg-brass-500 hover:text-midnight-950 hover:ring-brass-500"
+                    >
+                      <Icon className="h-[18px] w-[18px]" />
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
+          <p className="mt-10 text-xs leading-relaxed text-moon-200/35">
             {t.licenseLine(s.license)}
           </p>
           <div className="mt-5 flex flex-col gap-2 text-xs text-moon-200/35 sm:flex-row sm:items-center sm:justify-between">
@@ -136,8 +164,65 @@ export default function Footer({ lang }: { lang: Lang }) {
             </p>
             <p>{t.disclaimer}</p>
           </div>
+
+          <p className="mt-8 text-center text-xs text-moon-200/30">
+            {t.credit}{" "}
+            <a
+              href={site.credit.href}
+              target="_blank"
+              rel="noreferrer"
+              className="text-moon-200/50 transition-colors hover:text-brass-400"
+            >
+              {site.credit.label}
+            </a>
+          </p>
         </div>
       </div>
     </footer>
   );
 }
+
+/* ─── εικονίδια κοινωνικών δικτύων ─────────────────────────── */
+
+type IconProps = { className?: string };
+
+function InstagramIcon({ className = "h-4 w-4" }: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className={className}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" />
+      <circle cx="12" cy="12" r="4.2" />
+      <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function FacebookIcon({ className = "h-4 w-4" }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+      <path d="M14.02 21.93V14.5h2.5l.47-2.9h-2.97v-1.88c0-.84.28-1.58 1.07-1.58h1.93V5.6c-.34-.05-1.06-.15-2.42-.15-2.84 0-4.5 1.5-4.5 4.9v2.25H7.5v2.9h2.6v7.43c.6.1 1.22.15 1.85.15.7 0 1.4-.05 2.07-.15Z" />
+    </svg>
+  );
+}
+
+function TikTokIcon({ className = "h-4 w-4" }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+      <path d="M16.6 2h-3.02v13.4a2.4 2.4 0 1 1-1.86-2.34V9.9a5.5 5.5 0 1 0 4.88 5.47V9.2a6.5 6.5 0 0 0 3.9 1.28V7.4a3.6 3.6 0 0 1-3.9-3.6V2Z" />
+    </svg>
+  );
+}
+
+const socialIcons: Record<string, (props: IconProps) => ReactElement> = {
+  Instagram: InstagramIcon,
+  Facebook: FacebookIcon,
+  TikTok: TikTokIcon,
+};

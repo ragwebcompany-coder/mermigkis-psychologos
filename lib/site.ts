@@ -25,6 +25,22 @@ export const site = {
   mapEmbed:
     "https://www.google.com/maps?q=%CE%A0%CE%B1%CE%BD%CE%B1%CE%B3%CE%AE%20%CE%A4%CF%83%CE%B1%CE%BB%CE%B4%CE%AC%CF%81%CE%B7%2021%2C%20%CE%9C%CE%B5%CE%BB%CE%AF%CF%83%CF%83%CE%B9%CE%B1&output=embed",
   license: "Αρ. Πρωτ. 240550 / 22.02.2024 — Δ/νση Δημόσιας Υγείας, Β. Τομέας Αθηνών",
+  /** Τα κοινωνικά δίκτυα του γραφείου, με τη σειρά που εμφανίζονται στο footer. */
+  socials: [
+    {
+      name: "Instagram",
+      href: "https://www.instagram.com/michaelmermigkis/",
+    },
+    {
+      name: "TikTok",
+      href: "https://www.tiktok.com/@michaelmermigkis",
+    },
+  ],
+  /** Ποιος έφτιαξε το σάιτ — η υπογραφή στο κάτω μέρος του footer. */
+  credit: {
+    label: "ClinicBrain",
+    href: "https://clinicbrain.gr",
+  },
 } as const;
 
 export type NavItem = {
