@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Logo } from "./Logo";
 import { PhoneIcon } from "./Header";
 import { Ornament } from "./ui";
+import CookieSettingsButton from "./CookieSettingsButton";
 import { getDisorders } from "@/lib/disorders";
 import { getNav, site, siteText } from "@/lib/site";
 import { localePath, type Lang } from "@/lib/i18n";
@@ -21,6 +22,8 @@ const ui = {
       `Άδεια ασκήσεως επαγγέλματος ψυχολόγου: ${license} · Μέλος της British Psychological Society (BPS)`,
     rights: "Με επιφύλαξη παντός δικαιώματος.",
     socialHead: "Ακολουθήστε",
+    cookieSettings: "Ρυθμίσεις cookies",
+    cookieInformation: "Πληροφορίες για cookies",
     credit: "Κατασκευή ιστοσελίδας από",
     disclaimer:
       "Το περιεχόμενο έχει ενημερωτικό χαρακτήρα και δεν υποκαθιστά την κλινική αξιολόγηση.",
@@ -38,6 +41,8 @@ const ui = {
       `Psychologist's practising licence: ${license} · Member of the British Psychological Society (BPS)`,
     rights: "All rights reserved.",
     socialHead: "Follow",
+    cookieSettings: "Cookie settings",
+    cookieInformation: "Cookie information",
     credit: "Website made by",
     disclaimer:
       "This content is for information only and does not replace a clinical assessment.",
@@ -176,6 +181,15 @@ export default function Footer({ lang }: { lang: Lang }) {
               {site.credit.label}
             </a>
           </p>
+          <CookieSettingsButton label={t.cookieSettings} />
+          <p className="mt-2 text-center text-xs">
+            <Link
+              href={p("/cookies")}
+              className="text-moon-200/50 transition-colors hover:text-brass-400"
+            >
+              {t.cookieInformation}
+            </Link>
+          </p>
         </div>
       </div>
     </footer>
@@ -221,8 +235,17 @@ function TikTokIcon({ className = "h-4 w-4" }: IconProps) {
   );
 }
 
+function YouTubeIcon({ className = "h-4 w-4" }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+      <path d="M21.55 6.48a2.6 2.6 0 0 0-1.83-1.84C18.1 4.2 12 4.2 12 4.2s-6.1 0-7.72.44a2.6 2.6 0 0 0-1.83 1.84C2.02 8.1 2.02 12 2.02 12s0 3.9.43 5.52a2.6 2.6 0 0 0 1.83 1.84c1.62.44 7.72.44 7.72.44s6.1 0 7.72-.44a2.6 2.6 0 0 0 1.83-1.84c.43-1.62.43-5.52.43-5.52s0-3.9-.43-5.52ZM10 15.3V8.7l5.72 3.3L10 15.3Z" />
+    </svg>
+  );
+}
+
 const socialIcons: Record<string, (props: IconProps) => ReactElement> = {
   Instagram: InstagramIcon,
   Facebook: FacebookIcon,
   TikTok: TikTokIcon,
+  YouTube: YouTubeIcon,
 };

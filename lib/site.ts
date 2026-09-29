@@ -40,6 +40,10 @@ export const site = {
       name: "TikTok",
       href: "https://www.tiktok.com/@michaelmermigkis",
     },
+    {
+      name: "YouTube",
+      href: "https://www.youtube.com/@michaelmermigkis4844",
+    },
   ],
   /** Ποιος έφτιαξε το σάιτ — η υπογραφή στο κάτω μέρος του footer. */
   credit: {

@@ -3,6 +3,7 @@ import { Literata, Inter } from "next/font/google";
 import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import AnalyticsConsent from "@/components/AnalyticsConsent";
 import { site, siteText } from "@/lib/site";
 import { isLang, langs, type Lang } from "@/lib/i18n";
 import "../globals.css";
@@ -155,6 +156,7 @@ export default async function RootLayout({
         <Header lang={lang} />
         <main id="main">{children}</main>
         <Footer lang={lang} />
+        <AnalyticsConsent lang={lang} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFor(lang)) }}
